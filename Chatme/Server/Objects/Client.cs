@@ -14,6 +14,13 @@ namespace Server.Objects
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Constructor Client
+        /// </summary>
+        /// <param name="name">Client name</param>
+        /// <param name="socket">Client socket</param>
+        /// <param name="thread">Client thread service</param>
+        /// <param name="host">Endponit (host)</param>
         public Client(string name, Socket socket, Thread thread, EndPoint host)
         {
             this.Thread = thread;
@@ -31,6 +38,10 @@ namespace Server.Objects
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Override ToString method
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return Host.ToString() + " : " + Name;

@@ -15,13 +15,20 @@ namespace Client.Forms
 {
     public partial class Client : DevExpress.XtraEditors.XtraForm
     {
+        #region Instance variables
+        public static readonly int port = 2019;           // Port
+        #endregion
+
+        #region Constructors
         public Client(string username)
         {
             InitializeComponent();
 
             labelUsername.Text += username;
         }
+        #endregion
 
+        #region Events
         private void ListboxConnectedClients_MouseClick(object sender, MouseEventArgs e)
         {
             int index = listboxConnectedClients.IndexFromPoint(e.Location);
@@ -47,5 +54,6 @@ namespace Client.Forms
         {
             tabChat.TabPages.Remove((e as ClosePageButtonEventArgs).Page as XtraTabPage);
         }
+        #endregion
     }
 }

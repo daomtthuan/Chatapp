@@ -13,7 +13,7 @@ namespace Server.Forms
     public partial class Server : DevExpress.XtraEditors.XtraForm
     {
         #region Instance variables
-        private readonly int port = 2019;           // Port
+        public static readonly int port = 2019;     // Port
         private TcpListener listener;               // TCP/IP protocol for Server
         private List<Client> clients;               // List connected Clients
         private Socket socket;                      // Socket

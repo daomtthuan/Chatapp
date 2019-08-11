@@ -14,11 +14,22 @@ namespace Client.Forms
 {
     public partial class Login : DevExpress.XtraEditors.XtraForm
     {
+        #region Constructors
+        /// <summary>
+        /// Constructor Login form
+        /// </summary>
         public Login()
         {
             InitializeComponent();
         }
+        #endregion
 
+        #region Events
+        /// <summary>
+        /// Event Click button Login
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonLogin_Click(object sender, EventArgs e)
         {
             string username = textUsername.Text.Substring(0, 1).ToUpper() + textUsername.Text.Substring(1).ToLower();
@@ -37,5 +48,6 @@ namespace Client.Forms
                 XtraMessageBox.Show("Couldn't log in to Chatme", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+        #endregion
     }
 }

@@ -6,8 +6,8 @@ namespace Server.Objects
     public class Administrator
     {
         #region Instance variables
-        private string name;
-        private string password;
+        private string name;        // Name account
+        private string password;    // Password account
         #endregion
 
         #region Constructors
@@ -27,7 +27,7 @@ namespace Server.Objects
         /// <summary>
         /// Check Account to login. Return true if login successful, otherwise return false 
         /// </summary>
-        /// <param name="name">Username of Account</param>
+        /// <param name="name">Name of Account</param>
         /// <param name="password">Password of Account</param>
         /// <returns>Return true if login successful, otherwise return false </returns>
         public static bool Login(string name, string password)

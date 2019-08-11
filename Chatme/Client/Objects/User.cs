@@ -26,13 +26,13 @@ namespace Client.Objects
         }
         #endregion
 
+        #region Methods
         /// <summary>
         /// Check Account to login. Return true if login successful, otherwise return false 
         /// </summary>
         /// <param name="name">Name account</param>
         /// <param name="password">Password account</param>
         /// <returns>Return true if login successful, otherwise return false </returns>
-        #region Methods
         public static bool Login(string name, string password)
         {
             List<User> users = new List<User>();
