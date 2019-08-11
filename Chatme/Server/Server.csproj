@@ -69,8 +69,9 @@
     <Compile Include="Forms\Server.Designer.cs">
       <DependentUpon>Server.cs</DependentUpon>
     </Compile>
+    <Compile Include="Objects\Administrator.cs" />
+    <Compile Include="Objects\ArrayList.cs" />
     <Compile Include="Objects\Client.cs" />
-    <Compile Include="Objects\Static.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\Login.resx">

@@ -13,9 +13,11 @@ namespace Server.Forms
 {
     public partial class Server : DevExpress.XtraEditors.XtraForm
     {
-        public Server()
+        public Server(string administrator)
         {
             InitializeComponent();
+
+            labelAdministrator.Text += administrator;
         }
     }
 }

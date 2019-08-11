@@ -34,6 +34,7 @@
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.labelTitle = new DevExpress.XtraLayout.SimpleLabelItem();
             this.labelListConnectedClients = new DevExpress.XtraLayout.SimpleLabelItem();
+            this.labelAdministrator = new DevExpress.XtraLayout.SimpleLabelItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.listboxClients)).BeginInit();
@@ -41,6 +42,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.labelTitle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.labelListConnectedClients)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.labelAdministrator)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -56,9 +58,9 @@
             // 
             // listboxClients
             // 
-            this.listboxClients.Location = new System.Drawing.Point(12, 74);
+            this.listboxClients.Location = new System.Drawing.Point(12, 99);
             this.listboxClients.Name = "listboxClients";
-            this.listboxClients.Size = new System.Drawing.Size(411, 556);
+            this.listboxClients.Size = new System.Drawing.Size(411, 531);
             this.listboxClients.StyleController = this.layoutControl1;
             this.listboxClients.TabIndex = 4;
             // 
@@ -69,7 +71,8 @@
             this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem1,
             this.labelTitle,
-            this.labelListConnectedClients});
+            this.labelListConnectedClients,
+            this.labelAdministrator});
             this.Root.Name = "Root";
             this.Root.Size = new System.Drawing.Size(435, 642);
             this.Root.TextVisible = false;
@@ -77,9 +80,9 @@
             // layoutControlItem1
             // 
             this.layoutControlItem1.Control = this.listboxClients;
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 62);
+            this.layoutControlItem1.Location = new System.Drawing.Point(0, 87);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(415, 560);
+            this.layoutControlItem1.Size = new System.Drawing.Size(415, 535);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
@@ -99,11 +102,20 @@
             // labelListConnectedClients
             // 
             this.labelListConnectedClients.AllowHotTrack = false;
-            this.labelListConnectedClients.Location = new System.Drawing.Point(0, 37);
+            this.labelListConnectedClients.Location = new System.Drawing.Point(0, 62);
             this.labelListConnectedClients.Name = "labelListConnectedClients";
             this.labelListConnectedClients.Size = new System.Drawing.Size(415, 25);
             this.labelListConnectedClients.Text = "Connected Clients";
             this.labelListConnectedClients.TextSize = new System.Drawing.Size(150, 21);
+            // 
+            // labelAdministrator
+            // 
+            this.labelAdministrator.AllowHotTrack = false;
+            this.labelAdministrator.Location = new System.Drawing.Point(0, 37);
+            this.labelAdministrator.Name = "labelAdministrator";
+            this.labelAdministrator.Size = new System.Drawing.Size(415, 25);
+            this.labelAdministrator.Text = "Administrator: ";
+            this.labelAdministrator.TextSize = new System.Drawing.Size(150, 21);
             // 
             // Server
             // 
@@ -122,6 +134,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.labelTitle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.labelListConnectedClients)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.labelAdministrator)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -134,5 +147,6 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
         private DevExpress.XtraLayout.SimpleLabelItem labelTitle;
         private DevExpress.XtraLayout.SimpleLabelItem labelListConnectedClients;
+        private DevExpress.XtraLayout.SimpleLabelItem labelAdministrator;
     }
 }
