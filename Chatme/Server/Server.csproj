@@ -70,7 +70,6 @@
       <DependentUpon>Server.cs</DependentUpon>
     </Compile>
     <Compile Include="Objects\Administrator.cs" />
-    <Compile Include="Objects\ArrayList.cs" />
     <Compile Include="Objects\Client.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

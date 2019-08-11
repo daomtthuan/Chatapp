@@ -5,15 +5,20 @@ namespace Server.Objects
 {
     public class Administrator
     {
-        private String name;
-        private String password;
+        #region Instance variables
+        private string name;
+        private string password;
+        #endregion
 
+        #region Constructors
         public Administrator(string name, string password)
         {
             this.name = name.ToLower();
             this.password = password;
         }
+        #endregion
 
+        #region Methods
         public static bool Login(string name, string password)
         {
             List<Administrator> administrators = new List<Administrator>();
@@ -23,5 +28,6 @@ namespace Server.Objects
                 if (name.ToLower() == administrator.name && password == administrator.password) return true;
             return false;
         }
+        #endregion
     }
 }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
-            this.listboxClients = new DevExpress.XtraEditors.ListBoxControl();
+            this.listboxConnectedClients = new DevExpress.XtraEditors.ListBoxControl();
             this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.labelTitle = new DevExpress.XtraLayout.SimpleLabelItem();
@@ -37,7 +37,7 @@
             this.labelAdministrator = new DevExpress.XtraLayout.SimpleLabelItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.listboxClients)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.listboxConnectedClients)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.labelTitle)).BeginInit();
@@ -47,7 +47,7 @@
             // 
             // layoutControl1
             // 
-            this.layoutControl1.Controls.Add(this.listboxClients);
+            this.layoutControl1.Controls.Add(this.listboxConnectedClients);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
             this.layoutControl1.Name = "layoutControl1";
@@ -56,13 +56,13 @@
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
-            // listboxClients
+            // listboxConnectedClients
             // 
-            this.listboxClients.Location = new System.Drawing.Point(12, 99);
-            this.listboxClients.Name = "listboxClients";
-            this.listboxClients.Size = new System.Drawing.Size(411, 531);
-            this.listboxClients.StyleController = this.layoutControl1;
-            this.listboxClients.TabIndex = 4;
+            this.listboxConnectedClients.Location = new System.Drawing.Point(12, 99);
+            this.listboxConnectedClients.Name = "listboxConnectedClients";
+            this.listboxConnectedClients.Size = new System.Drawing.Size(411, 531);
+            this.listboxConnectedClients.StyleController = this.layoutControl1;
+            this.listboxConnectedClients.TabIndex = 4;
             // 
             // Root
             // 
@@ -79,7 +79,7 @@
             // 
             // layoutControlItem1
             // 
-            this.layoutControlItem1.Control = this.listboxClients;
+            this.layoutControlItem1.Control = this.listboxConnectedClients;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 87);
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Size = new System.Drawing.Size(415, 535);
@@ -129,7 +129,7 @@
             this.Text = "Server";
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.listboxClients)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.listboxConnectedClients)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.labelTitle)).EndInit();
@@ -142,7 +142,7 @@
         #endregion
 
         private DevExpress.XtraLayout.LayoutControl layoutControl1;
-        private DevExpress.XtraEditors.ListBoxControl listboxClients;
+        private DevExpress.XtraEditors.ListBoxControl listboxConnectedClients;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
         private DevExpress.XtraLayout.SimpleLabelItem labelTitle;
