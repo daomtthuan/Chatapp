@@ -1,8 +1,6 @@
-E:\Sync\GitHub\chatme\Chatme\Server\obj\Debug\Server.csprojAssemblyReference.cache
 E:\Sync\GitHub\chatme\Chatme\Server\obj\Debug\Server.Forms.Login.resources
 E:\Sync\GitHub\chatme\Chatme\Server\obj\Debug\Server.Properties.Resources.resources
 E:\Sync\GitHub\chatme\Chatme\Server\obj\Debug\Server.csproj.GenerateResource.cache
-E:\Sync\GitHub\chatme\Chatme\Server\obj\Debug\Server.exe.licenses
 E:\Sync\GitHub\chatme\Chatme\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
 E:\Sync\GitHub\chatme\Chatme\Server\bin\Debug\Server.exe.config
 E:\Sync\GitHub\chatme\Chatme\Server\bin\Debug\Server.exe

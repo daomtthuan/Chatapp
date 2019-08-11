@@ -61,15 +61,12 @@ namespace Server.Forms
                     service = new Thread(new ThreadStart(Service));
                     service.Start();
                 }
-                catch
-                {
-                    XtraMessageBox.Show("Could not listen Clients", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                catch { }
             }
         }
 
         /// <summary>
-        /// Service for connected Client
+        /// Service for connected Client (Recievice message form Client)
         /// </summary>
         private void Service()
         {
@@ -81,10 +78,10 @@ namespace Server.Forms
                 // Receive message
                 Byte[] buffer = new Byte[1024];
                 clientSocket.Receive(buffer);
-                string clientCommand = System.Text.Encoding.ASCII.GetString(buffer);
+                string command = System.Text.Encoding.ASCII.GetString(buffer);
 
                 // Analyze message
-                string[] tokens = clientCommand.Split(new Char[] { '|' });
+                string[] tokens = command.Split(new Char[] { '|' });
                 if (tokens[0] == "connect")
                 {
                     // Send message "join" to Clients in "List connted Clients"
@@ -100,7 +97,19 @@ namespace Server.Forms
                     // Show in listboxConnectedClient
                     listboxConnectedClients.Items.Add(newConnectedClient);
                 }
-
+                if (tokens[0] == "logout")
+                {
+                    clients.ForEach(client => {
+                        Send(client, command);
+                        if (client.Name == tokens[1])
+                        {
+                            listboxConnectedClients.Items.Remove(client);
+                            clients.Remove(client);
+                        }
+                    });
+                    clientSocket.Close();
+                    keepConnect = false;
+                }
             }
         }
 
@@ -122,7 +131,6 @@ namespace Server.Forms
                 client.Thread.Abort();
                 clients.Remove(client);
                 listboxConnectedClients.Items.Remove(client);
-                XtraMessageBox.Show("Could not reach " + client.Name, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -135,6 +143,30 @@ namespace Server.Forms
             string result = "";
             clients.ForEach(client => result += (client.Name + "|"));
             return result.Trim(new char[] { '|' });
+        }
+
+        /// <summary>
+        /// Override OnClosed method
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnClosed(EventArgs e)
+        {
+            try
+            {
+                clients.ForEach(client =>
+                {
+                    Send(client, "close|");
+                    client.Socket.Close();
+                    client.Thread.Abort();
+                });
+                socket.Close();
+                service.Abort();
+                listener.Stop();
+                listen.Abort();
+
+            }
+            catch { }
+            base.OnClosed(e);
         }
         #endregion
     }
