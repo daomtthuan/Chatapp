@@ -13,7 +13,7 @@ namespace Server.Forms
     public partial class Server : DevExpress.XtraEditors.XtraForm
     {
         #region Instance variables
-        private readonly int port = 1809;           // Port
+        private readonly int port = 2019;           // Port
         private TcpListener listener;               // TCP/IP protocol for Server
         private List<Client> clients;               // List connected Clients
         private Socket socket;                      // Socket
@@ -81,25 +81,26 @@ namespace Server.Forms
                 // Receive message
                 Byte[] buffer = new Byte[1024];
                 clientSocket.Receive(buffer);
-                string clientcommand = System.Text.Encoding.ASCII.GetString(buffer);
-                string[] tokens = clientcommand.Split(new Char[] { '|' });
+                string clientCommand = System.Text.Encoding.ASCII.GetString(buffer);
 
                 // Analyze message
-                if (tokens[0] == "CONN")
+                string[] tokens = clientCommand.Split(new Char[] { '|' });
+                if (tokens[0] == "connect")
                 {
                     // Send message "join" to Clients in "List connted Clients"
-                    clients.ForEach(client => { Send(client, "JOIN|" + tokens[1]); });
+                    clients.ForEach(client => Send(client, "join|" + tokens[1]));
 
                     // Create and add new Client in "List connted Clients"
                     Client newConnectedClient = new Client(tokens[1], clientSocket, service, clientSocket.RemoteEndPoint);
                     clients.Add(newConnectedClient);
 
-                    // Sen message "list" to that Client about "List connted Clients"
-                    Send(newConnectedClient, "LIST|" + ConnectedClients() + "\r\n");
+                    // Send message "list" to that Client about "List connted Clients"
+                    Send(newConnectedClient, "list|" + ConnectedClients() + "\r\n");
 
                     // Show in listboxConnectedClient
                     listboxConnectedClients.Items.Add(newConnectedClient);
                 }
+
             }
         }
 
@@ -115,7 +116,7 @@ namespace Server.Forms
                 byte[] buffer = System.Text.Encoding.ASCII.GetBytes(message.ToCharArray());
                 client.Socket.Send(buffer, buffer.Length, 0);
             }
-            catch 
+            catch
             {
                 client.Socket.Close();
                 client.Thread.Abort();
@@ -132,7 +133,7 @@ namespace Server.Forms
         private string ConnectedClients()
         {
             string result = "";
-            clients.ForEach(client => { result += client.Name + "|"; });
+            clients.ForEach(client => result += (client.Name + "|"));
             return result.Trim(new char[] { '|' });
         }
         #endregion

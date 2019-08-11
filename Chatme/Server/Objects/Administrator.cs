@@ -11,6 +11,11 @@ namespace Server.Objects
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Constructor Administrator account
+        /// </summary>
+        /// <param name="name">Name account</param>
+        /// <param name="password">Password account</param>
         public Administrator(string name, string password)
         {
             this.name = name.ToLower();
@@ -19,6 +24,12 @@ namespace Server.Objects
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Check Account to login. Return true if login successful, otherwise return false 
+        /// </summary>
+        /// <param name="name">Username of Account</param>
+        /// <param name="password">Password of Account</param>
+        /// <returns>Return true if login successful, otherwise return false </returns>
         public static bool Login(string name, string password)
         {
             List<Administrator> administrators = new List<Administrator>();
