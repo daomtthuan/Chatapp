@@ -1,31 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
 using DevExpress.XtraTab;
 using DevExpress.XtraTab.ViewInfo;
 using System.Net.Sockets;
 using System.IO;
 using System.Threading;
+using System.Net;
 
 namespace Client.Forms
 {
     public partial class Client : DevExpress.XtraEditors.XtraForm
     {
         #region Instance variables
-        public static readonly int port = 2019;           // Port
-        private String name;                              // Name Client          
-        private TcpClient socket;                         // TCP/IP protocol for Client
-        private NetworkStream stream;                     // Use NetworkStream for sending and receiving message
-        private StreamReader reader;                      // Use StreamReader for reading message
-        private Thread receive;                           // Thread Receive message form Server
-        private bool connected;                           // Is Connected or not
+        public static readonly string ip = "127.0.0.1";                             // IP
+        public static readonly int port = 2019;                                     // Port
+        private readonly String name;                                               // Name Client          
+        private TcpClient socket;                                                   // TCP/IP protocol for Client
+        private NetworkStream stream;                                               // Use NetworkStream for sending and receiving message
+        private StreamReader reader;                                                // Use StreamReader for reading message
+        private Thread receive;                                                     // Thread Receive message form Server
+        private bool connected;                                                     // Is Connected or not
         #endregion
 
         #region Constructors
@@ -38,7 +33,6 @@ namespace Client.Forms
             InitializeComponent();
 
             name = username;
-            labelUsername.Text += username;
             connected = false;
             receive = null;
         }
@@ -53,14 +47,13 @@ namespace Client.Forms
         {
             try
             {
-                socket = new TcpClient("localhost", port);
+                socket = new TcpClient(ip, port);
                 stream = socket.GetStream();
                 reader = new StreamReader(stream);
                 return true;
             }
             catch
             {
-                MessageBox.Show("Could not connect to Server", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
         }
@@ -70,22 +63,30 @@ namespace Client.Forms
         /// </summary>
         private void Login()
         {
-            try
+            if (connected)
             {
-                string command = "connect|" + name;
-                Byte[] outbytes = Encoding.ASCII.GetBytes(command.ToCharArray());
-                stream.Write(outbytes, 0, outbytes.Length);
-
-                string[] tokens = reader.ReadLine().Trim().Split(new Char[] { '|' });
-                if (tokens[0] == "list")
+                try
                 {
-                    for (int i = 1; i < tokens.Length - 1; i++)
-                        listboxConnectedClients.Items.Add(tokens[i].Trim(new char[] { '\r', '\n' }));
+                    string command = "connect|" + name;
+                    Byte[] outbytes = Encoding.ASCII.GetBytes(command.ToCharArray());
+                    stream.Write(outbytes, 0, outbytes.Length);
+
+                    string[] tokens = reader.ReadLine().Trim().Split(new Char[] { '|' });
+                    if (tokens[0] == "list")
+                    {
+                        for (int i = 1; i < tokens.Length - 1; i++)
+                            listboxConnectedClients.Items.Add(tokens[i].Trim(new char[] { '\r', '\n' }));
+                    }
+                }
+                catch
+                {
+                    connected = false;
+                    Close();
                 }
             }
-            catch
+            else
             {
-                MessageBox.Show("Error Registering", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Close();
             }
         }
 
@@ -94,8 +95,7 @@ namespace Client.Forms
         /// </summary>
         private void Receive()
         {
-            bool keepConnect = true;
-            while (keepConnect)
+            while (connected)
             {
                 try
                 {
@@ -111,34 +111,19 @@ namespace Client.Forms
                     }
                     if (tokens[0] == "close")
                     {
-                        stream.Close();
-                        socket.Close();
-                        keepConnect = false;
                         connected = false;
-                        MessageBox.Show("Could not connect to Server", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         Close();
                     }
                 }
-                catch { }
+                catch
+                {
+                    if (connected)
+                    {
+                        connected = false;
+                        Close();
+                    }
+                }
             }
-        }
-
-        /// <summary>
-        /// Override method OnClosed
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnClosed(EventArgs e)
-        {
-            try
-            {
-                string command = "logout|" + name;
-                Byte[] outbytes = Encoding.ASCII.GetBytes(command.ToCharArray());
-                stream.Write(outbytes, 0, outbytes.Length);
-                socket.Close();
-            }
-            catch { }
-            receive.Abort();
-            base.OnClosed(e);
         }
         #endregion
 
@@ -189,11 +174,44 @@ namespace Client.Forms
             connected = Connect();
             if (connected)
             {
+                labelUsername.Text += name;
                 Login();
                 receive = new Thread(new ThreadStart(Receive));
                 receive.Start();
             }
             else Close();
+        }
+
+        /// <summary>
+        /// Event close client form, Close all
+        /// Send message to Server "I logout"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Client_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (connected)
+            {
+                try
+                {
+                    string command = "logout|" + name;
+                    Byte[] outbytes = Encoding.ASCII.GetBytes(command.ToCharArray());
+                    stream.Write(outbytes, 0, outbytes.Length);
+                }
+                catch
+                {
+                    MessageBox.Show("Could not connect to Server", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                connected = false;
+                if (stream != null) stream.Close();
+                if (reader != null) reader.Close();
+                if (receive != null) receive.Abort();
+                if (socket != null) socket.Close();
+            }
+            else
+            {
+                MessageBox.Show("Could not connect to Server", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
         #endregion
     }

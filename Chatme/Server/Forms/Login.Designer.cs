@@ -65,7 +65,8 @@
             // 
             // textAdministrator
             // 
-            this.textAdministrator.Location = new System.Drawing.Point(12, 74);
+            this.textAdministrator.EditValue = "admin";
+            this.textAdministrator.Location = new System.Drawing.Point(12, 73);
             this.textAdministrator.Name = "textAdministrator";
             this.textAdministrator.Size = new System.Drawing.Size(346, 28);
             this.textAdministrator.StyleController = this.layoutMain;
@@ -73,7 +74,8 @@
             // 
             // textPassword
             // 
-            this.textPassword.Location = new System.Drawing.Point(12, 131);
+            this.textPassword.EditValue = "1";
+            this.textPassword.Location = new System.Drawing.Point(12, 129);
             this.textPassword.Name = "textPassword";
             this.textPassword.Properties.PasswordChar = '*';
             this.textPassword.Size = new System.Drawing.Size(346, 28);
@@ -82,9 +84,9 @@
             // 
             // buttonLogin
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(186, 163);
+            this.buttonLogin.Location = new System.Drawing.Point(186, 161);
             this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(172, 27);
+            this.buttonLogin.Size = new System.Drawing.Size(172, 26);
             this.buttonLogin.StyleController = this.layoutMain;
             this.buttonLogin.TabIndex = 6;
             this.buttonLogin.Text = "Login";
@@ -122,36 +124,36 @@
             this.layoutAdministrator.Control = this.textAdministrator;
             this.layoutAdministrator.Location = new System.Drawing.Point(0, 37);
             this.layoutAdministrator.Name = "layoutAdministrator";
-            this.layoutAdministrator.Size = new System.Drawing.Size(350, 57);
+            this.layoutAdministrator.Size = new System.Drawing.Size(350, 56);
             this.layoutAdministrator.Text = "Administrator";
             this.layoutAdministrator.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutAdministrator.TextSize = new System.Drawing.Size(150, 22);
+            this.layoutAdministrator.TextSize = new System.Drawing.Size(150, 21);
             // 
             // layoutPassword
             // 
             this.layoutPassword.Control = this.textPassword;
-            this.layoutPassword.Location = new System.Drawing.Point(0, 94);
+            this.layoutPassword.Location = new System.Drawing.Point(0, 93);
             this.layoutPassword.Name = "layoutPassword";
-            this.layoutPassword.Size = new System.Drawing.Size(350, 57);
+            this.layoutPassword.Size = new System.Drawing.Size(350, 56);
             this.layoutPassword.Text = "Password";
             this.layoutPassword.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutPassword.TextSize = new System.Drawing.Size(150, 22);
+            this.layoutPassword.TextSize = new System.Drawing.Size(150, 21);
             // 
             // layoutLogin
             // 
             this.layoutLogin.Control = this.buttonLogin;
-            this.layoutLogin.Location = new System.Drawing.Point(174, 151);
+            this.layoutLogin.Location = new System.Drawing.Point(174, 149);
             this.layoutLogin.Name = "layoutLogin";
-            this.layoutLogin.Size = new System.Drawing.Size(176, 31);
+            this.layoutLogin.Size = new System.Drawing.Size(176, 33);
             this.layoutLogin.TextSize = new System.Drawing.Size(0, 0);
             this.layoutLogin.TextVisible = false;
             // 
             // layoutEmpty2
             // 
             this.layoutEmpty2.AllowHotTrack = false;
-            this.layoutEmpty2.Location = new System.Drawing.Point(0, 151);
+            this.layoutEmpty2.Location = new System.Drawing.Point(0, 149);
             this.layoutEmpty2.Name = "layoutEmpty2";
-            this.layoutEmpty2.Size = new System.Drawing.Size(174, 31);
+            this.layoutEmpty2.Size = new System.Drawing.Size(174, 33);
             this.layoutEmpty2.TextSize = new System.Drawing.Size(0, 0);
             // 
             // Login

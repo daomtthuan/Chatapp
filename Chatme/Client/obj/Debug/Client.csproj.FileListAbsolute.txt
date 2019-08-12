@@ -57,3 +57,5 @@ E:\Sync\GitHub\chatme\Chatme\Client\bin\Debug\es\DevExpress.XtraBars.v18.2.resou
 E:\Sync\GitHub\chatme\Chatme\Client\bin\Debug\ja\DevExpress.XtraBars.v18.2.resources.dll
 E:\Sync\GitHub\chatme\Chatme\Client\bin\Debug\ru\DevExpress.XtraBars.v18.2.resources.dll
 E:\Sync\GitHub\chatme\Chatme\Client\obj\Debug\Client.Forms.Client.resources
+E:\Sync\GitHub\chatme\Chatme\Client\obj\Debug\Client.csprojAssemblyReference.cache
+E:\Sync\GitHub\chatme\Chatme\Client\obj\Debug\Client.exe.licenses

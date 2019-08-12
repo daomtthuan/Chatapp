@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
@@ -13,12 +14,13 @@ namespace Server.Forms
     public partial class Server : DevExpress.XtraEditors.XtraForm
     {
         #region Instance variables
-        public static readonly int port = 2019;     // Port
-        private TcpListener listener;               // TCP/IP protocol for Server
-        private List<Client> clients;               // List connected Clients
-        private Socket socket;                      // Socket
-        private Thread service;                     // Thread Service run when Client has connected
-        private Thread listen;                      // Thread Listen run when Server has started
+        public static readonly IPAddress ip = IPAddress.Parse("127.0.0.1");         // IP
+        public static readonly int port = 2019;                                     // Port
+        private TcpListener listener;                                               // TCP/IP protocol for Server
+        private List<Client> clients;                                               // List connected Clients
+        private Socket socket;                                                      // Socket
+        private Thread service;                                                     // Thread Service run when Client has connected
+        private Thread listen;                                                      // Thread Listen run when Server has started
         #endregion
 
         #region Constructors
@@ -47,7 +49,7 @@ namespace Server.Forms
         private void Listen()
         {
             // Create and start listening Clients by TCP/IP protocol
-            listener = new TcpListener(port);
+            listener = new TcpListener(ip, port);
             listener.Start();
 
             while (true)
@@ -78,10 +80,10 @@ namespace Server.Forms
                 // Receive message
                 Byte[] buffer = new Byte[1024];
                 clientSocket.Receive(buffer);
-                string command = System.Text.Encoding.ASCII.GetString(buffer);
+                string command = Encoding.ASCII.GetString(buffer);
 
                 // Analyze message
-                string[] tokens = command.Split(new Char[] { '|' });
+                string[] tokens = command.Trim(new char[] { '\r', '\n' }).Split(new Char[] { '|' });
                 if (tokens[0] == "connect")
                 {
                     // Send message "join" to Clients in "List connted Clients"
@@ -99,13 +101,14 @@ namespace Server.Forms
                 }
                 if (tokens[0] == "logout")
                 {
-                    clients.ForEach(client => {
-                        Send(client, command);
+                    clients.ForEach(client =>
+                    {
                         if (client.Name == tokens[1])
                         {
                             listboxConnectedClients.Items.Remove(client);
                             clients.Remove(client);
                         }
+                        else Send(client, command);
                     });
                     clientSocket.Close();
                     keepConnect = false;
@@ -122,7 +125,7 @@ namespace Server.Forms
         {
             try
             {
-                byte[] buffer = System.Text.Encoding.ASCII.GetBytes(message.ToCharArray());
+                byte[] buffer = Encoding.ASCII.GetBytes(message.ToCharArray());
                 client.Socket.Send(buffer, buffer.Length, 0);
             }
             catch

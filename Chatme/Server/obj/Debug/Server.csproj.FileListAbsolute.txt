@@ -51,3 +51,4 @@ E:\Sync\GitHub\chatme\Chatme\Server\obj\Debug\Server.csproj.CopyComplete
 E:\Sync\GitHub\chatme\Chatme\Server\obj\Debug\Server.exe
 E:\Sync\GitHub\chatme\Chatme\Server\obj\Debug\Server.pdb
 E:\Sync\GitHub\chatme\Chatme\Server\obj\Debug\Server.Forms.Server.resources
+E:\Sync\GitHub\chatme\Chatme\Server\obj\Debug\Server.csprojAssemblyReference.cache
