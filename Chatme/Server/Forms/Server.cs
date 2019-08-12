@@ -83,7 +83,7 @@ namespace Server.Forms
                 string command = Encoding.ASCII.GetString(buffer);
 
                 // Analyze message
-                string[] tokens = command.Trim(new char[] { '\r', '\n' }).Split(new Char[] { '|' });
+                string[] tokens = command.Trim('\0').Split(new Char[] { '|' });
                 if (tokens[0] == "connect")
                 {
                     // Send message "join" to Clients in "List connted Clients"
@@ -110,8 +110,8 @@ namespace Server.Forms
                         }
                         else Send(client, command);
                     });
-                    clientSocket.Close();
                     keepConnect = false;
+                    clientSocket.Close();
                 }
             }
         }
