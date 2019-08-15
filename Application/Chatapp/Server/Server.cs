@@ -58,7 +58,8 @@ namespace Server
             if (Account == null) Application.Exit();
             else
             {
-                CMD("Starting server...");
+                Cmd("Hello " + account + ", wellcome to Chatapp!");
+                Cmd("Preparing to start server...");
                 Start();
             }
         }
@@ -88,7 +89,7 @@ namespace Server
             Thread listener = new Thread(Listen) { IsBackground = true };
             try
             {
-                CMD("Listening...");
+                Cmd("Listening...");
                 listener.Start();
             }
             catch
@@ -109,7 +110,7 @@ namespace Server
                 SocketServer.Listen(100);
                 Client client = new Client(SocketServer.Accept());
                 clients.Add(client);
-                CMD("There is a request from " + client.ToString());
+                Cmd(client + " : Request to connect");
 
                 Thread servicer = new Thread(() => Receive(client)) { IsBackground = true };
                 servicer.Start();
@@ -129,13 +130,17 @@ namespace Server
                     byte[] data = new byte[5120];
                     client.Socket.Receive(data);
                     string message = Data.Message.Deserialize(data);
+                    boxMess.Items.Add(client.Socket.RemoteEndPoint + " --> " + message.Trim('\0'));
 
                     Analyze(client, message);
                 }
             }
             catch
             {
+                Cmd(client + " : Disconnect");
                 clients.Remove(client);
+                clients.ForEach(e => Send(e, "disconnect|" + client.Account));
+                boxClients.Items.Remove(client);
                 client.Close();
             }
         }
@@ -149,12 +154,20 @@ namespace Server
         {
             try
             {
-                if (alive) client.Socket.Send(Data.Message.Serialize(message));
+                if (alive)
+                {
+                    client.Socket.Send(Data.Message.Serialize(message));
+                    boxMess.Items.Add(client.Socket.RemoteEndPoint + " <-- " + message);
+                }
             }
             catch
             {
+                Cmd(client + " : Disconnect");                
                 clients.Remove(client);
+                clients.ForEach(e => Send(e, "disconnect|" + client.Account));
+                boxClients.Items.Remove(client);
                 client.Close();
+
             }
         }
 
@@ -169,10 +182,10 @@ namespace Server
             switch (tokens[0])
             {
                 case "connect":
-                    client.Account = tokens[1];
-                    CMD("Accept " + client);
                     Send(client, "list" + Clients());
-                    CMD("Send list clients to " + client);
+                    client.Account = tokens[1];
+                    boxClients.Items.Add(client);
+                    Cmd(client + " : Accept and send list clients");
                     break;
             }
         }
@@ -189,12 +202,12 @@ namespace Server
         }
 
         /// <summary>
-        /// Writeln cmd
+        /// Writeln in cmdbox
         /// </summary>
         /// <param name="cmd">Command</param>
-        private void CMD(string cmd)
+        private void Cmd(string cmd)
         {
-            this.cmd.Items.Add(cmd);
+            boxCmd.Items.Add(cmd);
         }
         #endregion
 

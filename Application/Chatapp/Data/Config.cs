@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Data
+﻿namespace Data
 {
     /// <summary>
     /// Config of application

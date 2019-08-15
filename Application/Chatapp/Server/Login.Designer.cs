@@ -83,6 +83,8 @@
             // 
             // buttonLogin
             // 
+            this.buttonLogin.Appearance.BackColor = DevExpress.LookAndFeel.DXSkinColors.FillColors.Primary;
+            this.buttonLogin.Appearance.Options.UseBackColor = true;
             this.buttonLogin.Location = new System.Drawing.Point(192, 134);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(178, 26);
@@ -93,7 +95,6 @@
             // 
             // Root
             // 
-            this.Root.AllowCustomizeChildren = false;
             this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             this.Root.GroupBordersVisible = false;
             this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
@@ -103,12 +104,13 @@
             this.emptySpaceItem1,
             this.emptySpaceItem2});
             this.Root.Name = "Root";
-            this.Root.ShowInCustomizationForm = false;
             this.Root.Size = new System.Drawing.Size(382, 172);
             this.Root.TextVisible = false;
             // 
             // layoutPassword
             // 
+            this.layoutPassword.AppearanceItemCaption.ForeColor = DevExpress.LookAndFeel.DXSkinColors.FillColors.Primary;
+            this.layoutPassword.AppearanceItemCaption.Options.UseForeColor = true;
             this.layoutPassword.Control = this.textPassword;
             this.layoutPassword.Location = new System.Drawing.Point(0, 56);
             this.layoutPassword.Name = "layoutPassword";
@@ -119,6 +121,8 @@
             // 
             // layoutName
             // 
+            this.layoutName.AppearanceItemCaption.ForeColor = DevExpress.LookAndFeel.DXSkinColors.FillColors.Primary;
+            this.layoutName.AppearanceItemCaption.Options.UseForeColor = true;
             this.layoutName.Control = this.textName;
             this.layoutName.Location = new System.Drawing.Point(0, 0);
             this.layoutName.Name = "layoutName";
