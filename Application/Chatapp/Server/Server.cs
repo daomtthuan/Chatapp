@@ -123,7 +123,6 @@ namespace Server
             }
         }
 
-
         /// <summary>
         /// Receive message from client
         /// </summary>
@@ -140,6 +139,29 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Send message
+        /// </summary>
+        /// <param name="client">Send to which client?</param>
+        /// <param name="message">Message</param>
+        private void Send(Client client, string message)
+        {
+            try
+            {
+                if (alive) client.Socket.Send(Data.Message.Serialize(message));
+            }
+            catch
+            {
+                clients.Remove(client);
+                client.Close();
+            }
+        }
+
+        /// <summary>
+        /// Analyze message
+        /// </summary>
+        /// <param name="client">Receive from which client</param>
+        /// <param name="message">Message</param>
         private void Analyze(Client client, string message)
         {
             string[] tokens = message.Trim('\0').Split('|');
@@ -147,9 +169,20 @@ namespace Server
             {
                 case "connect":
                     client.Account = tokens[1];
-                    MessageBox.Show(clients[0].ToString());
+                    Send(client, "list" + Clients());
                     break;
             }
+        }
+
+        /// <summary>
+        /// Return list clients to string
+        /// </summary>
+        /// <returns></returns>
+        private string Clients()
+        {
+            string result = "";
+            clients.ForEach(client => result += "|" + client.Account);
+            return result;
         }
         #endregion
 

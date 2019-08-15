@@ -47,7 +47,6 @@ namespace Client
         /// <param name="e">Event Args</param>
         private void Client_Shown(object sender, EventArgs e)
         {
-            Data.Account.Instance.Logout("admin", 1);
             using (Login login = new Login()) { login.ShowDialog(); }
             if (Account == null) Application.Exit();
             else
@@ -87,6 +86,7 @@ namespace Client
             }
             catch
             {
+                MessageBox.Show("Could not connect", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 connected = false;
                 client.Close();
                 Application.Exit();
@@ -101,6 +101,7 @@ namespace Client
             }
             catch
             {
+                MessageBox.Show("Could not connect", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 connected = false;
                 client.Close();
                 Application.Exit();

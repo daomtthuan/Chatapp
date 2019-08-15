@@ -49,6 +49,3 @@ insert into [Accounts] values ('Yamete','196202665616018535130132048015411111713
 go
 
 select * from Accounts
-
-[LOGIN] 'User','1962026656160185351301320480154111117132155', 0
-go
