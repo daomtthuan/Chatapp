@@ -58,7 +58,7 @@ namespace Server
             if (Account == null) Application.Exit();
             else
             {
-                CMD("Server Starting...");
+                CMD("Starting server...");
                 Start();
             }
         }
