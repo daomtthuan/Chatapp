@@ -6,7 +6,6 @@ E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Debug\Client.Client.resour
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Debug\Client.Login.resources
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Debug\Client.Properties.Resources.resources
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Debug\Client.csproj.GenerateResource.cache
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Debug\Chatapp.exe.licenses
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Debug\Client.csproj.CopyComplete
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Debug\Chatapp.exe

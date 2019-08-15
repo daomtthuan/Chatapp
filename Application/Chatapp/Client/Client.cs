@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Client
@@ -24,7 +25,7 @@ namespace Client
         /// <summary>
         /// Socket client
         /// </summary>
-        private Socket client;
+        private Socket socketClient;
         #endregion
 
         #region Constructor
@@ -49,10 +50,7 @@ namespace Client
         {
             using (Login login = new Login()) { login.ShowDialog(); }
             if (Account == null) Application.Exit();
-            else
-            {
-                Connect();
-            }
+            else Connect();
         }
 
         /// <summary>
@@ -64,7 +62,7 @@ namespace Client
         {
             if (Account != null)
             {
-                Data.Account.Instance.Logout(Account, 0);                
+                Data.Account.Instance.Logout(Account, 0);
             }
         }
         #endregion
@@ -76,36 +74,86 @@ namespace Client
         private void Connect()
         {
             IPEndPoint server = new IPEndPoint(IPAddress.Parse(Data.Config.IP), Data.Config.Port);
-            client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            SocketClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
 
             try
             {
                 connected = true;
-                client.Connect(server);
-                Send("connect|" + account);
+                SocketClient.Connect(server);
             }
             catch
             {
-                MessageBox.Show("Could not connect", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                connected = false;
-                client.Close();
-                Application.Exit();
+                CloseClient();
             }
+
+            Thread listen = new Thread(Receive) { IsBackground = true };
+            listen.Start();
+
+            Send("connect|" + account);
         }
 
+        /// <summary>
+        /// Send message to server
+        /// </summary>
+        /// <param name="message"></param>
         private void Send(string message)
         {
             try
             {
-                if (connected) client.Send(Data.Message.Serialize(message));
+                if (connected) SocketClient.Send(Data.Message.Serialize(message));
             }
             catch
             {
-                MessageBox.Show("Could not connect", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                connected = false;
-                client.Close();
-                Application.Exit();
+                CloseClient();
             }
+        }
+
+        /// <summary>
+        /// Receive message from server
+        /// </summary>
+        private void Receive()
+        {
+            try
+            {
+                while (connected)
+                {
+                    byte[] data = new byte[5120];
+                    SocketClient.Receive(data);
+                    string message = Data.Message.Deserialize(data);
+
+                    Analyze(message);
+                }
+            }
+            catch
+            {
+                CloseClient();
+            }
+        }
+
+        /// <summary>
+        /// Analyze message from server
+        /// </summary>
+        /// <param name="message">Message</param>
+        private void Analyze(string message)
+        {
+            string[] tokens = message.Trim('\0').Split('|');
+            switch (tokens[0])
+            {
+                case "list":
+                    MessageBox.Show("Hahahaha");
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Close client if could not connect to server
+        /// </summary>
+        private void CloseClient()
+        {
+            MessageBox.Show("Could not connect", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            connected = false;
+            SocketClient.Close();
+            Application.Exit();
         }
         #endregion
 
@@ -114,6 +162,7 @@ namespace Client
         /// Account login
         /// </summary>
         public static string Account { get => account; set => account = value; }
+        public Socket SocketClient { get => socketClient; set => socketClient = value; }
         #endregion
     }
 }

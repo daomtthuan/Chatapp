@@ -29,12 +29,7 @@ namespace Server
         /// <summary>
         /// Socket server
         /// </summary>
-        private Socket server;
-
-        /// <summary>
-        /// Thread listen to client
-        /// </summary>
-        private Thread listener;
+        private Socket socketServer;
         #endregion
 
         #region Constructors
@@ -63,6 +58,7 @@ namespace Server
             if (Account == null) Application.Exit();
             else
             {
+                CMD("Starting...");
                 Start();
             }
         }
@@ -85,16 +81,21 @@ namespace Server
         private void Start()
         {
             IPEndPoint client = new IPEndPoint(IPAddress.Any, Data.Config.Port);
-            server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+            SocketServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             alive = true;
 
-            server.Bind(client);
-            listener = new Thread(Listen) { IsBackground = true };
-            try { listener.Start(); }
+            SocketServer.Bind(client);
+            Thread listener = new Thread(Listen) { IsBackground = true };
+            try
+            {
+                CMD("Listening...");
+                listener.Start();
+            }
             catch
             {
                 alive = false;
                 listener.Abort();
+                Application.Exit();
             }
         }
 
@@ -105,21 +106,13 @@ namespace Server
         {
             while (alive)
             {
-                server.Listen(100);
-                Client client = new Client(server.Accept());
+                SocketServer.Listen(100);
+                Client client = new Client(SocketServer.Accept());
                 clients.Add(client);
+                CMD("There is a request from " + client.ToString());
 
                 Thread servicer = new Thread(() => Receive(client)) { IsBackground = true };
-                try
-                {
-                    servicer.Start();
-                }
-                catch
-                {
-                    servicer.Abort();
-                    clients.Remove(client);
-                    client.Close();
-                }
+                servicer.Start();
             }
         }
 
@@ -129,13 +122,21 @@ namespace Server
         /// <param name="client">Receive from which client?</param>
         private void Receive(Client client)
         {
-            while (alive)
+            try
             {
-                byte[] data = new byte[5120];
-                client.Socket.Receive(data);
-                string message = Data.Message.Deserialize(data);
+                while (alive)
+                {
+                    byte[] data = new byte[5120];
+                    client.Socket.Receive(data);
+                    string message = Data.Message.Deserialize(data);
 
-                Analyze(client, message);
+                    Analyze(client, message);
+                }
+            }
+            catch
+            {
+                clients.Remove(client);
+                client.Close();
             }
         }
 
@@ -169,7 +170,9 @@ namespace Server
             {
                 case "connect":
                     client.Account = tokens[1];
+                    CMD("Accept " + client);
                     Send(client, "list" + Clients());
+                    CMD("Send list clients to " + client);
                     break;
             }
         }
@@ -184,6 +187,15 @@ namespace Server
             clients.ForEach(client => result += "|" + client.Account);
             return result;
         }
+
+        /// <summary>
+        /// Writeln cmd
+        /// </summary>
+        /// <param name="cmd">Command</param>
+        private void CMD(string cmd)
+        {
+            this.cmd.Items.Add(cmd);
+        }
         #endregion
 
         #region Getter Setter
@@ -191,6 +203,10 @@ namespace Server
         /// Account login
         /// </summary>
         public static string Account { get => account; set => account = value; }
+        /// <summary>
+        /// Socket server
+        /// </summary>
+        public Socket SocketServer { get => socketServer; set => socketServer = value; }
         #endregion
     }
 
@@ -227,7 +243,7 @@ namespace Server
         /// <returns></returns>
         public override string ToString()
         {
-            return Socket.RemoteEndPoint + ((Account.Length > 0) ? " - " : "") + Account;
+            return Socket.RemoteEndPoint.ToString() + ((Account != null) ? (" - " + Account) : "");
         }
 
         /// <summary>
