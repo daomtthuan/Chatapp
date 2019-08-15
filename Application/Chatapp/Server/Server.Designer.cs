@@ -36,6 +36,7 @@
             // 
             // layoutMain
             // 
+            this.layoutMain.AllowCustomization = false;
             this.layoutMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutMain.Location = new System.Drawing.Point(0, 0);
             this.layoutMain.Name = "layoutMain";
@@ -46,9 +47,11 @@
             // 
             // Root
             // 
+            this.Root.AllowCustomizeChildren = false;
             this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             this.Root.GroupBordersVisible = false;
             this.Root.Name = "Root";
+            this.Root.ShowInCustomizationForm = false;
             this.Root.Size = new System.Drawing.Size(758, 569);
             this.Root.TextVisible = false;
             // 
@@ -60,7 +63,10 @@
             this.Controls.Add(this.layoutMain);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Server";
-            this.Text = "Server Chatapp";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Chatapp Server";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Server_FormClosing);
+            this.Shown += new System.EventHandler(this.Server_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.layoutMain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
             this.ResumeLayout(false);

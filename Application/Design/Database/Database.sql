@@ -17,7 +17,7 @@ go
 
 create proc [Login]	@name varchar(10), @password varchar(100), @role bit
 as begin
-	declare @id int = (select [Id] from [Accounts] where [Name] = @name and [Password] = @password and [Status] = 0);
+	declare @id int = (select [Id] from [Accounts] where [Name] = @name and [Password] = @password and [Role] = @role and [Status] = 0);
 	if (@id is null) select 0;
 	else begin
 		if (@role = 1)			
@@ -50,3 +50,5 @@ go
 
 select * from Accounts
 go
+
+[Login] 'admin','1962026656160185351301320480154111117132155', 0

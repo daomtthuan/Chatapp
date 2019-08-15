@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Data</name>
+    </assembly>
+    <members>
+        <member name="T:Data.Account">
+            <summary>
+            Account login
+            </summary>
+        </member>
+        <member name="F:Data.Account.instance">
+            <summary>
+            Instance variable
+            </summary>
+        </member>
+        <member name="M:Data.Account.#ctor">
+            <summary>
+            Account Constructor
+            </summary>
+        </member>
+        <member name="M:Data.Account.HasPassword(System.String)">
+            <summary>
+            Has Password
+            </summary>
+            <param name="password">Password Account</param>
+            <returns></returns>
+        </member>
+        <member name="M:Data.Account.Login(System.String,System.String,System.Int32)">
+            <summary>
+            Login account return <paramref name="name"/>, otherwise return null
+            </summary>
+            <param name="name">Name Account</param>
+            <param name="password">Password Account</param>
+            <param name="role">Role Account</param>
+            <returns>Name Account</returns>
+        </member>
+        <member name="M:Data.Account.Logout(System.String,System.Int32)">
+            <summary>
+            Logout account
+            </summary>
+            <param name="name">Name Account</param>
+            <param name="role">Role Account</param>
+        </member>
+        <member name="P:Data.Account.Instance">
+            <summary>
+            Get Instance variable
+            </summary>
+        </member>
+        <member name="T:Data.Config">
+            <summary>
+            Config of application
+            </summary>
+        </member>
+        <member name="F:Data.Config.ServerIcon">
+            <summary>
+            Icon server
+            </summary>
+        </member>
+        <member name="F:Data.Config.ClienIcon">
+            <summary>
+            Icon client
+            </summary>
+        </member>
+        <member name="F:Data.Config.ConnectString">
+            <summary>
+            Connect string to sql server
+            </summary>
+        </member>
+        <member name="T:Data.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Data.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Data.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Data.Properties.Resources.ClientIcon">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:Data.Properties.Resources.SeverIcon">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="T:Data.Provider">
+            <summary>
+            Data provider
+            </summary>
+        </member>
+        <member name="F:Data.Provider.instance">
+            <summary>
+            Instance variable
+            </summary>
+        </member>
+        <member name="M:Data.Provider.#ctor">
+            <summary>
+            Provider Constructor
+            </summary>
+        </member>
+        <member name="M:Data.Provider.ExecuteQuery(System.String,System.Object[])">
+            <summary>
+            <para>
+            Excute query string SQL with @paramater is replaced by element in paramater array
+            </para>
+            <para>
+            Return DataTable is result of executing this query string
+            </para>
+            </summary>
+            <param name="query">Query string</param>
+            <param name="paramater">Paramater array</param>
+            <returns>DataTable</returns>
+        </member>
+        <member name="M:Data.Provider.ExecuteNonQuery(System.String,System.Object[])">
+            <summary>
+            <para>
+            Excute query string SQL with @paramater is replaced by element in paramater array
+            </para>
+            <para>
+            Return number of rows affected
+            </para>
+            </summary>
+            <param name="query">Query string</param>
+            <param name="paramater">Paramater array</param>
+            <returns>int</returns>
+        </member>
+        <member name="M:Data.Provider.ExecuteScalar(System.String,System.Object[])">
+            <summary>
+            <para>
+            Excute query string SQL with @paramater is replaced by element in paramater array
+            </para>
+            <para>
+            Return first columnm of first row in result excuted table
+            </para>
+            </summary>
+            <param name="query">Query string</param>
+            <param name="paramater">Paramater array</param>
+            <returns>object</returns>
+        </member>
+        <member name="P:Data.Provider.Instance">
+            <summary>
+            Get Instance variable
+            </summary>
+        </member>
+    </members>
+</doc>

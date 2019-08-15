@@ -29,77 +29,87 @@
         private void InitializeComponent()
         {
             this.layoutMain = new DevExpress.XtraLayout.LayoutControl();
-            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.textEdit1 = new DevExpress.XtraEditors.TextEdit();
-            this.layoutName = new DevExpress.XtraLayout.LayoutControlItem();
-            this.textEdit2 = new DevExpress.XtraEditors.TextEdit();
-            this.layoutPassword = new DevExpress.XtraLayout.LayoutControlItem();
+            this.textName = new DevExpress.XtraEditors.TextEdit();
+            this.textPassword = new DevExpress.XtraEditors.TextEdit();
             this.buttonLogin = new DevExpress.XtraEditors.SimpleButton();
+            this.Root = new DevExpress.XtraLayout.LayoutControlGroup();
+            this.layoutPassword = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutName = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutLogin = new DevExpress.XtraLayout.LayoutControlItem();
+            this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutMain)).BeginInit();
             this.layoutMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textPassword.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutName)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutPassword)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutLogin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutMain
             // 
-            this.layoutMain.Controls.Add(this.textEdit1);
-            this.layoutMain.Controls.Add(this.textEdit2);
+            this.layoutMain.AllowCustomization = false;
+            this.layoutMain.Controls.Add(this.textName);
+            this.layoutMain.Controls.Add(this.textPassword);
             this.layoutMain.Controls.Add(this.buttonLogin);
             this.layoutMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutMain.Location = new System.Drawing.Point(0, 0);
             this.layoutMain.Name = "layoutMain";
             this.layoutMain.Root = this.Root;
-            this.layoutMain.Size = new System.Drawing.Size(382, 170);
+            this.layoutMain.Size = new System.Drawing.Size(382, 172);
             this.layoutMain.TabIndex = 0;
             this.layoutMain.Text = "layoutControl1";
             // 
+            // textName
+            // 
+            this.textName.Location = new System.Drawing.Point(12, 36);
+            this.textName.Name = "textName";
+            this.textName.Size = new System.Drawing.Size(358, 28);
+            this.textName.StyleController = this.layoutMain;
+            this.textName.TabIndex = 4;
+            // 
+            // textPassword
+            // 
+            this.textPassword.Location = new System.Drawing.Point(12, 92);
+            this.textPassword.Name = "textPassword";
+            this.textPassword.Properties.PasswordChar = '*';
+            this.textPassword.Size = new System.Drawing.Size(358, 28);
+            this.textPassword.StyleController = this.layoutMain;
+            this.textPassword.TabIndex = 5;
+            // 
+            // buttonLogin
+            // 
+            this.buttonLogin.Location = new System.Drawing.Point(192, 134);
+            this.buttonLogin.Name = "buttonLogin";
+            this.buttonLogin.Size = new System.Drawing.Size(178, 26);
+            this.buttonLogin.StyleController = this.layoutMain;
+            this.buttonLogin.TabIndex = 6;
+            this.buttonLogin.Text = "Login";
+            this.buttonLogin.Click += new System.EventHandler(this.ButtonLogin_Click);
+            // 
             // Root
             // 
+            this.Root.AllowCustomizeChildren = false;
             this.Root.EnableIndentsWithoutBorders = DevExpress.Utils.DefaultBoolean.True;
             this.Root.GroupBordersVisible = false;
             this.Root.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutPassword,
             this.layoutName,
-            this.layoutLogin});
+            this.layoutLogin,
+            this.emptySpaceItem1,
+            this.emptySpaceItem2});
             this.Root.Name = "Root";
-            this.Root.Size = new System.Drawing.Size(382, 170);
+            this.Root.ShowInCustomizationForm = false;
+            this.Root.Size = new System.Drawing.Size(382, 172);
             this.Root.TextVisible = false;
-            // 
-            // textEdit1
-            // 
-            this.textEdit1.Location = new System.Drawing.Point(12, 36);
-            this.textEdit1.Name = "textEdit1";
-            this.textEdit1.Size = new System.Drawing.Size(358, 28);
-            this.textEdit1.StyleController = this.layoutMain;
-            this.textEdit1.TabIndex = 4;
-            // 
-            // layoutName
-            // 
-            this.layoutName.Control = this.textEdit1;
-            this.layoutName.Location = new System.Drawing.Point(0, 0);
-            this.layoutName.Name = "layoutName";
-            this.layoutName.Size = new System.Drawing.Size(362, 56);
-            this.layoutName.Text = "Name";
-            this.layoutName.TextLocation = DevExpress.Utils.Locations.Top;
-            this.layoutName.TextSize = new System.Drawing.Size(59, 21);
-            // 
-            // textEdit2
-            // 
-            this.textEdit2.Location = new System.Drawing.Point(12, 92);
-            this.textEdit2.Name = "textEdit2";
-            this.textEdit2.Size = new System.Drawing.Size(358, 28);
-            this.textEdit2.StyleController = this.layoutMain;
-            this.textEdit2.TabIndex = 5;
             // 
             // layoutPassword
             // 
-            this.layoutPassword.Control = this.textEdit2;
+            this.layoutPassword.Control = this.textPassword;
             this.layoutPassword.Location = new System.Drawing.Point(0, 56);
             this.layoutPassword.Name = "layoutPassword";
             this.layoutPassword.Size = new System.Drawing.Size(362, 56);
@@ -107,30 +117,47 @@
             this.layoutPassword.TextLocation = DevExpress.Utils.Locations.Top;
             this.layoutPassword.TextSize = new System.Drawing.Size(59, 21);
             // 
-            // buttonLogin
+            // layoutName
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(12, 132);
-            this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(358, 26);
-            this.buttonLogin.StyleController = this.layoutMain;
-            this.buttonLogin.TabIndex = 6;
-            this.buttonLogin.Text = "Login";
+            this.layoutName.Control = this.textName;
+            this.layoutName.Location = new System.Drawing.Point(0, 0);
+            this.layoutName.Name = "layoutName";
+            this.layoutName.Size = new System.Drawing.Size(362, 56);
+            this.layoutName.Text = "Name";
+            this.layoutName.TextLocation = DevExpress.Utils.Locations.Top;
+            this.layoutName.TextSize = new System.Drawing.Size(59, 21);
             // 
             // layoutLogin
             // 
             this.layoutLogin.Control = this.buttonLogin;
-            this.layoutLogin.Location = new System.Drawing.Point(0, 112);
+            this.layoutLogin.Location = new System.Drawing.Point(180, 122);
             this.layoutLogin.Name = "layoutLogin";
-            this.layoutLogin.Padding = new DevExpress.XtraLayout.Utils.Padding(2, 2, 10, 2);
-            this.layoutLogin.Size = new System.Drawing.Size(362, 38);
+            this.layoutLogin.Size = new System.Drawing.Size(182, 30);
             this.layoutLogin.TextSize = new System.Drawing.Size(0, 0);
             this.layoutLogin.TextVisible = false;
             // 
+            // emptySpaceItem1
+            // 
+            this.emptySpaceItem1.AllowHotTrack = false;
+            this.emptySpaceItem1.Location = new System.Drawing.Point(0, 122);
+            this.emptySpaceItem1.Name = "emptySpaceItem1";
+            this.emptySpaceItem1.Size = new System.Drawing.Size(180, 30);
+            this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
+            // 
+            // emptySpaceItem2
+            // 
+            this.emptySpaceItem2.AllowHotTrack = false;
+            this.emptySpaceItem2.Location = new System.Drawing.Point(0, 112);
+            this.emptySpaceItem2.Name = "emptySpaceItem2";
+            this.emptySpaceItem2.Size = new System.Drawing.Size(362, 10);
+            this.emptySpaceItem2.TextSize = new System.Drawing.Size(0, 0);
+            // 
             // Login
             // 
+            this.AcceptButton = this.buttonLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(382, 170);
+            this.ClientSize = new System.Drawing.Size(382, 172);
             this.Controls.Add(this.layoutMain);
             this.MaximizeBox = false;
             this.Name = "Login";
@@ -140,12 +167,14 @@
             this.Text = "Login";
             ((System.ComponentModel.ISupportInitialize)(this.layoutMain)).EndInit();
             this.layoutMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.textName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textPassword.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Root)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit1.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutName)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textEdit2.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutPassword)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutLogin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -154,11 +183,13 @@
 
         private DevExpress.XtraLayout.LayoutControl layoutMain;
         private DevExpress.XtraLayout.LayoutControlGroup Root;
-        private DevExpress.XtraEditors.TextEdit textEdit1;
-        private DevExpress.XtraEditors.TextEdit textEdit2;
+        private DevExpress.XtraEditors.TextEdit textName;
+        private DevExpress.XtraEditors.TextEdit textPassword;
         private DevExpress.XtraEditors.SimpleButton buttonLogin;
         private DevExpress.XtraLayout.LayoutControlItem layoutPassword;
         private DevExpress.XtraLayout.LayoutControlItem layoutName;
         private DevExpress.XtraLayout.LayoutControlItem layoutLogin;
+        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem1;
+        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
     }
 }
