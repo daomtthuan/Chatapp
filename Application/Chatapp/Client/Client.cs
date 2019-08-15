@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraEditors;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -9,7 +10,7 @@ namespace Client
     /// <summary>
     /// Form client
     /// </summary>
-    public partial class Client : DevExpress.XtraEditors.XtraForm
+    public partial class Client : XtraForm
     {
         #region Properties
         /// <summary>
@@ -162,6 +163,10 @@ namespace Client
         /// Account login
         /// </summary>
         public static string Account { get => account; set => account = value; }
+
+        /// <summary>
+        /// Socket client
+        /// </summary>
         public Socket SocketClient { get => socketClient; set => socketClient = value; }
         #endregion
     }
