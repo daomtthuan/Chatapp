@@ -8,7 +8,7 @@ namespace Client
     /// <summary>
     /// Form login client
     /// </summary>
-    public partial class Login : DevExpress.XtraEditors.XtraForm
+    public partial class Login : XtraForm
     {
         #region Constructor
         /// <summary>

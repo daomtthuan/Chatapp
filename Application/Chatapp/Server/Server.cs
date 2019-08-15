@@ -106,9 +106,49 @@ namespace Server
             while (alive)
             {
                 server.Listen(100);
-                clients.Add(new Client(server.Accept()));
+                Client client = new Client(server.Accept());
+                clients.Add(client);
 
-                MessageBox.Show("Kết nối thành công");
+                Thread servicer = new Thread(() => Receive(client)) { IsBackground = true };
+                try
+                {
+                    servicer.Start();
+                }
+                catch
+                {
+                    servicer.Abort();
+                    clients.Remove(client);
+                    client.Close();
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Receive message from client
+        /// </summary>
+        /// <param name="client">Receive from which client?</param>
+        private void Receive(Client client)
+        {
+            while (alive)
+            {
+                byte[] data = new byte[5120];
+                client.Socket.Receive(data);
+                string message = Data.Message.Deserialize(data);
+
+                Analyze(client, message);
+            }
+        }
+
+        private void Analyze(Client client, string message)
+        {
+            string[] tokens = message.Trim('\0').Split('|');
+            switch (tokens[0])
+            {
+                case "connect":
+                    client.Account = tokens[1];
+                    MessageBox.Show(clients[0].ToString());
+                    break;
             }
         }
         #endregion
@@ -147,6 +187,15 @@ namespace Server
         /// Close connect client
         /// </summary>
         public void Close() { Socket.Close(); }
+
+        /// <summary>
+        /// Return string
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return Socket.RemoteEndPoint + ((Account.Length > 0) ? " - " : "") + Account;
+        }
 
         /// <summary>
         /// Account client login

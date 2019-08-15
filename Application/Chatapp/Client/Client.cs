@@ -47,6 +47,7 @@ namespace Client
         /// <param name="e">Event Args</param>
         private void Client_Shown(object sender, EventArgs e)
         {
+            Data.Account.Instance.Logout("admin", 1);
             using (Login login = new Login()) { login.ShowDialog(); }
             if (Account == null) Application.Exit();
             else
@@ -62,7 +63,10 @@ namespace Client
         /// <param name="e">Event Args</param>
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Account != null) Data.Account.Instance.Logout(Account, 0);
+            if (Account != null)
+            {
+                Data.Account.Instance.Logout(Account, 0);                
+            }
         }
         #endregion
 
@@ -74,16 +78,32 @@ namespace Client
         {
             IPEndPoint server = new IPEndPoint(IPAddress.Parse(Data.Config.IP), Data.Config.Port);
             client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
-        
+
             try
             {
-                client.Connect(server);
                 connected = true;
-
+                client.Connect(server);
+                Send("connect|" + account);
             }
             catch
             {
                 connected = false;
+                client.Close();
+                Application.Exit();
+            }
+        }
+
+        private void Send(string message)
+        {
+            try
+            {
+                if (connected) client.Send(Data.Message.Serialize(message));
+            }
+            catch
+            {
+                connected = false;
+                client.Close();
+                Application.Exit();
             }
         }
         #endregion
