@@ -17,7 +17,7 @@ namespace Server
         private static string account;
 
         /// <summary>
-        /// List of clients connected
+        /// List Clients
         /// </summary>
         private List<Client> clients;
 
@@ -41,7 +41,7 @@ namespace Server
             InitializeComponent();
             Icon = Properties.Resources.ServerIcon;
             account = null;
-            clients = new List<Client>();
+            Clients = new List<Client>();
             alive = false;
         }
         #endregion
@@ -109,7 +109,7 @@ namespace Server
             {
                 SocketServer.Listen(100);
                 Client client = new Client(SocketServer.Accept());
-                clients.Add(client);
+                Clients.Add(client);
                 Cmd(client + " : Request to connect");
 
                 Thread servicer = new Thread(() => Receive(client)) { IsBackground = true };
@@ -138,8 +138,8 @@ namespace Server
             catch
             {
                 Cmd(client + " : Disconnect");
-                clients.Remove(client);
-                clients.ForEach(e => Send(e, "disconnect|" + client.Account));
+                Clients.Remove(client);
+                Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
                 boxClients.Items.Remove(client);
                 client.Close();
             }
@@ -163,11 +163,10 @@ namespace Server
             catch
             {
                 Cmd(client + " : Disconnect");                
-                clients.Remove(client);
-                clients.ForEach(e => Send(e, "disconnect|" + client.Account));
+                Clients.Remove(client);
+                Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
                 boxClients.Items.Remove(client);
                 client.Close();
-
             }
         }
 
@@ -182,7 +181,7 @@ namespace Server
             switch (tokens[0])
             {
                 case "connect":
-                    Send(client, "list" + Clients());
+                    Send(client, "list" + GetClients());
                     client.Account = tokens[1];
                     boxClients.Items.Add(client);
                     Cmd(client + " : Accept and send list clients");
@@ -194,10 +193,10 @@ namespace Server
         /// Return list clients to string
         /// </summary>
         /// <returns></returns>
-        private string Clients()
+        private string GetClients()
         {
             string result = "";
-            clients.ForEach(client => result += "|" + client.Account);
+            Clients.ForEach(client => result += "|" + client.Account);
             return result;
         }
 
@@ -216,10 +215,16 @@ namespace Server
         /// Account login
         /// </summary>
         public static string Account { get => account; set => account = value; }
+
         /// <summary>
         /// Socket server
         /// </summary>
         public Socket SocketServer { get => socketServer; set => socketServer = value; }
+
+        /// <summary>
+        /// List Clients
+        /// </summary>
+        public List<Client> Clients { get => clients; set => clients = value; }
         #endregion
     }
 
