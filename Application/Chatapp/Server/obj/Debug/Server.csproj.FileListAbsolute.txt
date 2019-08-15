@@ -1,12 +1,13 @@
-E:\Sync\GitHub\Chatapp\Server\Server.exe.config
-E:\Sync\GitHub\Chatapp\Server\Server.exe
-E:\Sync\GitHub\Chatapp\Server\Server.pdb
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.csprojAssemblyReference.cache
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.Login.resources
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.Server.resources
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.Properties.Resources.resources
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.csproj.GenerateResource.cache
+E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.exe.licenses
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
+E:\Sync\GitHub\Chatapp\Server\Server.exe.config
+E:\Sync\GitHub\Chatapp\Server\Server.exe
+E:\Sync\GitHub\Chatapp\Server\Server.pdb
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.csproj.CopyComplete
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.exe
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.pdb

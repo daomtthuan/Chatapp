@@ -8,16 +8,6 @@ namespace Data
     public static class Config
     {
         /// <summary>
-        /// Icon server
-        /// </summary>
-        public static readonly Icon ServerIcon = Properties.Resources.SeverIcon;
-
-        /// <summary>
-        /// Icon client
-        /// </summary>
-        public static readonly Icon ClienIcon = Properties.Resources.ClientIcon;
-
-        /// <summary>
         /// Connect string to sql server
         /// </summary>
         public static readonly string ConnectString = @"Data Source=(local);Initial Catalog=ChatApp;Integrated Security=True";

@@ -44,7 +44,7 @@ namespace Server
         public Server()
         {
             InitializeComponent();
-            Icon = Data.Config.ServerIcon;
+            Icon = Properties.Resources.ServerIcon;
             account = null;
             clients = new List<Client>();
             alive = false;

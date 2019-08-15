@@ -63,9 +63,9 @@ namespace Server.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon SeverIcon {
+        internal static System.Drawing.Icon ServerIcon {
             get {
-                object obj = ResourceManager.GetObject("SeverIcon", resourceCulture);
+                object obj = ResourceManager.GetObject("ServerIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
