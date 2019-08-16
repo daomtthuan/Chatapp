@@ -1,4 +1,6 @@
-use master drop database [ChatApp]
+use master
+if (exists (select name from master.dbo.sysdatabases where name = 'ChatApp'))
+drop database [ChatApp]
 go
 
 create database [ChatApp]

@@ -39,7 +39,7 @@ namespace Server
         public Server()
         {
             InitializeComponent();
-            Icon = Properties.Resources.ServerIcon;
+            CheckForIllegalCrossThreadCalls = false;
             account = null;
             Clients = new List<Client>();
             alive = false;
@@ -75,13 +75,23 @@ namespace Server
         }
 
         /// <summary>
-        /// Event click button Disconnect
+        /// Event click button disconnect
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">Event Args</param>
         private void ButtonDisconnect_Click(object sender, EventArgs e)
         {
             clients.ForEach(client => Send(client, "disconnect|" + Clients[boxClients.SelectedIndex].Account));
+        }
+
+        /// <summary>
+        /// Event click button disconnect all
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event Args</param>
+        private void ButtonDisconnectAll_Click(object sender, EventArgs e)
+        {
+            clients.ForEach(client => Send(client, "disconnect|" + client.Account));
         }
 
         /// <summary>
@@ -107,18 +117,10 @@ namespace Server
             alive = true;
 
             SocketServer.Bind(client);
+            boxCmd.Items.Add("Listening...");
+
             Thread listener = new Thread(Listen) { IsBackground = true };
-            try
-            {
-                boxCmd.Items.Add("Listening...");
-                listener.Start();
-            }
-            catch
-            {
-                alive = false;
-                listener.Abort();
-                Application.Exit();
-            }
+            listener.Start();
         }
 
         /// <summary>
@@ -126,15 +128,22 @@ namespace Server
         /// </summary>
         private void Listen()
         {
-            while (alive)
+            try
             {
-                SocketServer.Listen(100);
-                Client client = new Client(SocketServer.Accept());
-                Clients.Add(client);
-                boxCmd.Items.Add(client + " : Request to connect");
+                while (alive)
+                {
+                    SocketServer.Listen(100);
+                    Client client = new Client(SocketServer.Accept());
+                    boxCmd.Items.Add(client.Address + " : Request to connect");
 
-                Thread servicer = new Thread(() => Receive(client)) { IsBackground = true };
-                servicer.Start();
+                    Thread servicer = new Thread(() => Receive(client)) { IsBackground = true };
+                    servicer.Start();
+                }
+            }
+            catch
+            {
+                alive = false;
+                Application.Exit();
             }
         }
 
@@ -158,7 +167,7 @@ namespace Server
             }
             catch
             {
-                boxCmd.Items.Add(client + " : Disconnect");
+                boxCmd.Items.Add(client.Address + " : Disconnect");
                 Clients.Remove(client);
                 Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
                 boxClients.Items.Remove(client);
@@ -183,7 +192,7 @@ namespace Server
             }
             catch
             {
-                boxCmd.Items.Add(client + " : Disconnect");
+                boxCmd.Items.Add(client.Address + " : Disconnect");
                 Clients.Remove(client);
                 Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
                 boxClients.Items.Remove(client);
@@ -202,23 +211,17 @@ namespace Server
             switch (tokens[0])
             {
                 case "connect":
-                    Send(client, "list" + GetClients());
                     client.Account = tokens[1];
+
+                    boxCmd.Items.Add(client.Address + " : Accept connecting");
+                    Clients.Add(client);
                     boxClients.Items.Add(client);
-                    boxCmd.Items.Add(client + " : Accept and send list clients");
+
+                    boxCmd.Items.Add(client.Address + " : Send list clients");
+                    string list = ""; Clients.ForEach(element => list += "|" + element.Account);
+                    Send(client, "list" + list);
                     break;
             }
-        }
-
-        /// <summary>
-        /// Return list clients to string
-        /// </summary>
-        /// <returns></returns>
-        private string GetClients()
-        {
-            string result = "";
-            Clients.ForEach(client => result += "|" + client.Account);
-            return result;
         }
         #endregion
 
@@ -265,7 +268,10 @@ namespace Server
         /// <summary>
         /// Close connect client
         /// </summary>
-        public void Close() { Socket.Close(); }
+        public void Close()
+        {
+            Socket.Close();
+        }
 
         /// <summary>
         /// Return string
@@ -275,6 +281,12 @@ namespace Server
         {
             return Socket.RemoteEndPoint.ToString() + ((Account != null) ? (" - " + Account) : "");
         }
+
+        /// <summary>
+        /// Get client's address
+        /// </summary>
+        /// <returns></returns>
+        public string Address { get => socket.RemoteEndPoint.ToString(); }
 
         /// <summary>
         /// Account client login

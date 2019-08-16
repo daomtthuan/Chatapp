@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Icon = Properties.Resources.ServerIcon;
             this.layoutMain = new DevExpress.XtraLayout.LayoutControl();
             this.boxClients = new DevExpress.XtraEditors.ListBoxControl();
             this.boxCmd = new DevExpress.XtraEditors.ListBoxControl();
@@ -76,6 +77,7 @@
             // 
             // boxClients
             // 
+            this.boxClients.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
             this.boxClients.Location = new System.Drawing.Point(12, 36);
             this.boxClients.Name = "boxClients";
             this.boxClients.Size = new System.Drawing.Size(178, 534);
@@ -113,6 +115,8 @@
             // 
             this.buttonDisconnectAll.Appearance.ForeColor = DevExpress.LookAndFeel.DXSkinColors.FillColors.Danger;
             this.buttonDisconnectAll.Appearance.Options.UseForeColor = true;
+            this.buttonDisconnectAll.AppearanceDisabled.ForeColor = DevExpress.LookAndFeel.DXSkinColors.ForeColors.DisabledText;
+            this.buttonDisconnectAll.AppearanceDisabled.Options.UseForeColor = true;
             this.buttonDisconnectAll.Enabled = false;
             this.buttonDisconnectAll.Location = new System.Drawing.Point(94, 574);
             this.buttonDisconnectAll.Name = "buttonDisconnectAll";
@@ -120,6 +124,7 @@
             this.buttonDisconnectAll.StyleController = this.layoutMain;
             this.buttonDisconnectAll.TabIndex = 7;
             this.buttonDisconnectAll.Text = "Disconnect all";
+            this.buttonDisconnectAll.Click += new System.EventHandler(this.ButtonDisconnectAll_Click);
             // 
             // boxMess
             // 

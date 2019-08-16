@@ -1,0 +1,1 @@
+sqlcmd -E -S . -i query.sql
