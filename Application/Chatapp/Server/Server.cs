@@ -58,8 +58,8 @@ namespace Server
             if (Account == null) Application.Exit();
             else
             {
-                Cmd("Hello " + account + ", wellcome to Chatapp!");
-                Cmd("Preparing to start server...");
+                boxCmd.Items.Add("Hello " + account + ", wellcome to Chatapp!");
+                boxCmd.Items.Add("Preparing to start server...");
                 Start();
             }
         }
@@ -72,6 +72,27 @@ namespace Server
         private void Server_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Account != null) Data.Account.Instance.Logout(Account, 1);
+        }
+
+        /// <summary>
+        /// Event click button Disconnect
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event Args</param>
+        private void ButtonDisconnect_Click(object sender, EventArgs e)
+        {
+            clients.ForEach(client => Send(client, "disconnect|" + Clients[boxClients.SelectedIndex].Account));
+        }
+
+        /// <summary>
+        /// Event Selected index changed boxClients
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">Event Args</param>
+        private void BoxClients_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (boxClients.SelectedIndex >= 0) buttonDisconnect.Enabled = true;
+            else buttonDisconnect.Enabled = false;
         }
         #endregion
 
@@ -89,7 +110,7 @@ namespace Server
             Thread listener = new Thread(Listen) { IsBackground = true };
             try
             {
-                Cmd("Listening...");
+                boxCmd.Items.Add("Listening...");
                 listener.Start();
             }
             catch
@@ -110,7 +131,7 @@ namespace Server
                 SocketServer.Listen(100);
                 Client client = new Client(SocketServer.Accept());
                 Clients.Add(client);
-                Cmd(client + " : Request to connect");
+                boxCmd.Items.Add(client + " : Request to connect");
 
                 Thread servicer = new Thread(() => Receive(client)) { IsBackground = true };
                 servicer.Start();
@@ -137,7 +158,7 @@ namespace Server
             }
             catch
             {
-                Cmd(client + " : Disconnect");
+                boxCmd.Items.Add(client + " : Disconnect");
                 Clients.Remove(client);
                 Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
                 boxClients.Items.Remove(client);
@@ -162,7 +183,7 @@ namespace Server
             }
             catch
             {
-                Cmd(client + " : Disconnect");                
+                boxCmd.Items.Add(client + " : Disconnect");
                 Clients.Remove(client);
                 Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
                 boxClients.Items.Remove(client);
@@ -184,7 +205,7 @@ namespace Server
                     Send(client, "list" + GetClients());
                     client.Account = tokens[1];
                     boxClients.Items.Add(client);
-                    Cmd(client + " : Accept and send list clients");
+                    boxCmd.Items.Add(client + " : Accept and send list clients");
                     break;
             }
         }
@@ -198,15 +219,6 @@ namespace Server
             string result = "";
             Clients.ForEach(client => result += "|" + client.Account);
             return result;
-        }
-
-        /// <summary>
-        /// Writeln in cmdbox
-        /// </summary>
-        /// <param name="cmd">Command</param>
-        private void Cmd(string cmd)
-        {
-            boxCmd.Items.Add(cmd);
         }
         #endregion
 

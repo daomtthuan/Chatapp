@@ -81,6 +81,7 @@
             this.boxClients.Size = new System.Drawing.Size(178, 534);
             this.boxClients.StyleController = this.layoutMain;
             this.boxClients.TabIndex = 5;
+            this.boxClients.SelectedIndexChanged += new System.EventHandler(this.BoxClients_SelectedIndexChanged);
             // 
             // boxCmd
             // 
@@ -99,17 +100,20 @@
             // 
             // buttonDisconnect
             // 
+            this.buttonDisconnect.Enabled = false;
             this.buttonDisconnect.Location = new System.Drawing.Point(12, 574);
             this.buttonDisconnect.Name = "buttonDisconnect";
             this.buttonDisconnect.Size = new System.Drawing.Size(78, 26);
             this.buttonDisconnect.StyleController = this.layoutMain;
             this.buttonDisconnect.TabIndex = 6;
             this.buttonDisconnect.Text = "Disconnect";
+            this.buttonDisconnect.Click += new System.EventHandler(this.ButtonDisconnect_Click);
             // 
             // buttonDisconnectAll
             // 
             this.buttonDisconnectAll.Appearance.ForeColor = DevExpress.LookAndFeel.DXSkinColors.FillColors.Danger;
             this.buttonDisconnectAll.Appearance.Options.UseForeColor = true;
+            this.buttonDisconnectAll.Enabled = false;
             this.buttonDisconnectAll.Location = new System.Drawing.Point(94, 574);
             this.buttonDisconnectAll.Name = "buttonDisconnectAll";
             this.buttonDisconnectAll.Size = new System.Drawing.Size(96, 26);
