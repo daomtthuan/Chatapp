@@ -58,7 +58,7 @@ namespace Server
             if (Account == null) Application.Exit();
             else
             {
-                boxCmd.Items.Add("Hello " + account + ", wellcome to Chatapp!");
+                boxCmd.Items.Add("Hello " + account + ", wellcome to Chatapp server!");
                 boxCmd.Items.Add("Preparing to start server...");
                 Start();
             }
@@ -167,7 +167,7 @@ namespace Server
             }
             catch
             {
-                boxCmd.Items.Add(client.Address + " : Disconnect");
+                boxCmd.Items.Add(client.Address + " : Disconnected");
                 Clients.Remove(client);
                 Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
                 boxClients.Items.Remove(client);
@@ -192,7 +192,7 @@ namespace Server
             }
             catch
             {
-                boxCmd.Items.Add(client.Address + " : Disconnect");
+                boxCmd.Items.Add(client.Address + " : Disconnected");
                 Clients.Remove(client);
                 Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
                 boxClients.Items.Remove(client);
@@ -213,7 +213,7 @@ namespace Server
                 case "connect":
                     client.Account = tokens[1];
 
-                    boxCmd.Items.Add(client.Address + " : Accept connecting");
+                    boxCmd.Items.Add(client.Address + " : Connected");
                     Clients.Add(client);
                     boxClients.Items.Add(client);
 

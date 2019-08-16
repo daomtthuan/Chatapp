@@ -1,6 +1,0 @@
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\bin\Debug\Data.dll
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\bin\Debug\Data.pdb
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Debug\Data.csproj.CoreCompileInputs.cache
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Debug\Data.dll
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Debug\Data.pdb
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Debug\Data.csprojAssemblyReference.cache

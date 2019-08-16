@@ -1,8 +1,4 @@
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\bin\Release\Data.xml
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\bin\Release\Data.dll
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\bin\Release\Data.pdb
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Release\Data.Properties.Resources.resources
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Release\Data.csproj.GenerateResource.cache
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Release\Data.csproj.CoreCompileInputs.cache
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Release\Data.dll
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Release\Data.pdb
+E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Release\Data.csprojAssemblyReference.cache
