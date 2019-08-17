@@ -13,3 +13,4 @@ E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.pdb
 E:\Sync\GitHub\Chatapp\Debug\Server\Server.exe.config
 E:\Sync\GitHub\Chatapp\Debug\Server\Server.exe
 E:\Sync\GitHub\Chatapp\Debug\Server\Server.pdb
+E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Debug\Server.exe.licenses

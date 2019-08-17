@@ -45,7 +45,7 @@ namespace Data
         public string Login(string name, string password, int role)
         {
             object data = Provider.Instance.ExecuteScalar("[Login] @name , @password , @role", new object[] { name, HasPassword(password), role });
-            return ((int)data == 1) ? name : null;
+            return ((int)data == 1) ? name[0].ToString().ToUpper() + name.Substring(1).ToLower() : null;
         }
 
         /// <summary>

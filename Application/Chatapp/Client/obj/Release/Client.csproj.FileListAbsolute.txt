@@ -7,3 +7,4 @@ E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Release\Client.csproj.Gene
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Release\Client.csproj.CoreCompileInputs.cache
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Release\Client.csproj.CopyComplete
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Release\Chatapp.exe
+E:\Sync\GitHub\Chatapp\Application\Chatapp\Client\obj\Release\Client.csprojAssemblyReference.cache

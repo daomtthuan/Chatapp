@@ -58,8 +58,8 @@ namespace Server
             if (Account == null) Application.Exit();
             else
             {
-                boxCmd.Items.Add("Hello " + account + ", wellcome to Chatapp server!");
-                boxCmd.Items.Add("Preparing to start server...");
+                Command("Hello " + account + ", wellcome to Chatapp server!");
+                Command("Preparing to start server...");
                 Start();
             }
         }
@@ -101,8 +101,26 @@ namespace Server
         /// <param name="e">Event Args</param>
         private void BoxClients_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (boxClients.SelectedIndex >= 0) buttonDisconnect.Enabled = true;
-            else buttonDisconnect.Enabled = false;
+            buttonDisconnect.Enabled = boxClients.SelectedIndex >= 0;
+            buttonDisconnectAll.Enabled = Clients.Count > 0;
+        }
+
+        /// <summary>
+        /// Writeline command
+        /// </summary>
+        /// <param name="command">Command</param>
+        private void Command(string command)
+        {
+            boxCommand.Text += command + "\r\n";
+        }
+
+        /// <summary>
+        /// Writeline message
+        /// </summary>
+        /// <param name="message">Message</param>
+        private void Message(string message)
+        {
+            boxMessage.Text += message + "\r\n";
         }
         #endregion
 
@@ -117,7 +135,7 @@ namespace Server
             alive = true;
 
             SocketServer.Bind(client);
-            boxCmd.Items.Add("Listening...");
+            Command("Listening...");
 
             Thread listener = new Thread(Listen) { IsBackground = true };
             listener.Start();
@@ -134,7 +152,7 @@ namespace Server
                 {
                     SocketServer.Listen(100);
                     Client client = new Client(SocketServer.Accept());
-                    boxCmd.Items.Add(client.Address + " : Request to connect");
+                    Command(client.Address + " : Request to connect");
 
                     Thread servicer = new Thread(() => Receive(client)) { IsBackground = true };
                     servicer.Start();
@@ -160,14 +178,14 @@ namespace Server
                     byte[] data = new byte[5120];
                     client.Socket.Receive(data);
                     string message = Data.Message.Deserialize(data);
-                    boxMess.Items.Add(client.Socket.RemoteEndPoint + " --> " + message.Trim('\0'));
+                    Message(client.Socket.RemoteEndPoint + " --> " + message.Trim('\0').Replace("\r\n", "\\r\\n"));
 
                     Analyze(client, message);
                 }
             }
             catch
             {
-                boxCmd.Items.Add(client.Address + " : Disconnected");
+                Command(client.Address + " : Disconnected");
                 Clients.Remove(client);
                 Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
                 boxClients.Items.Remove(client);
@@ -187,12 +205,12 @@ namespace Server
                 if (alive)
                 {
                     client.Socket.Send(Data.Message.Serialize(message));
-                    boxMess.Items.Add(client.Socket.RemoteEndPoint + " <-- " + message);
+                    Message(client.Socket.RemoteEndPoint + " <-- " + message.Replace("\r\n", "\\r\\n"));
                 }
             }
             catch
             {
-                boxCmd.Items.Add(client.Address + " : Disconnected");
+                Command(client.Address + " : Disconnected");
                 Clients.Remove(client);
                 Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
                 boxClients.Items.Remove(client);
@@ -207,19 +225,34 @@ namespace Server
         /// <param name="message">Message</param>
         private void Analyze(Client client, string message)
         {
-            string[] tokens = message.Trim('\0').Split('|');
+            message = message.Trim('\0');
+            string[] tokens = message.Split('|');
             switch (tokens[0])
             {
                 case "connect":
                     client.Account = tokens[1];
-
-                    boxCmd.Items.Add(client.Address + " : Connected");
+                    Command(client.Address + " : Connected");
                     Clients.Add(client);
                     boxClients.Items.Add(client);
+                    boxClients.SelectedIndex = -1;
 
-                    boxCmd.Items.Add(client.Address + " : Send list clients");
-                    string list = ""; Clients.ForEach(element => list += "|" + element.Account);
+                    Command(client.Address + " : Send list clients");
+                    string list = "";
+                    for (int i = 0; i < Clients.Count - 1; i++)
+                    {
+                        list += "|" + Clients[i].Account;
+                        Send(Clients[i], "connect|" + client.Account);
+                    }
                     Send(client, "list" + list);
+                    break;
+
+                case "chat":
+                    foreach (Client element in Clients)
+                        if (element.Account == tokens[1])
+                        {
+                            Send(element, "chat|" + client.Account + "|" + message.Remove(0, (tokens[0] + "|" + tokens[1] + "|").Length));
+                            break;
+                        }
                     break;
             }
         }
