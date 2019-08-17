@@ -8,4 +8,3 @@ E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Release\Server.csproj.Core
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Release\Server.csproj.CopyComplete
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Release\Server.exe
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Release\Server.csprojAssemblyReference.cache
-E:\Sync\GitHub\Chatapp\Application\Chatapp\Server\obj\Release\Server.exe.licenses

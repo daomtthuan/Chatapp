@@ -111,7 +111,11 @@ namespace Server
         /// <param name="command">Command</param>
         private void Command(string command)
         {
-            boxCommand.Text += command + "\r\n";
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
+            {
+                boxCommand.Text += command + "\r\n";
+            });
+            else boxCommand.Text += command + "\r\n";
         }
 
         /// <summary>
@@ -120,7 +124,25 @@ namespace Server
         /// <param name="message">Message</param>
         private void Message(string message)
         {
-            boxMessage.Text += message + "\r\n";
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
+            {
+                boxMessage.Text += message + "\r\n";
+            });
+            else boxMessage.Text += message + "\r\n";
+        }
+
+        /// <summary>
+        /// Add connected clients
+        /// </summary>
+        /// <param name="client">Client</param>
+        private void AddClients(Client client)
+        {
+            Clients.Add(client);
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
+            {
+                boxClients.Items.Add(client);
+            });
+            else boxClients.Items.Add(client);
         }
         #endregion
 
@@ -185,11 +207,7 @@ namespace Server
             }
             catch
             {
-                Command(client.Address + " : Disconnected");
-                Clients.Remove(client);
-                Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
-                boxClients.Items.Remove(client);
-                client.Close();
+                CloseConnect(client);
             }
         }
 
@@ -210,11 +228,7 @@ namespace Server
             }
             catch
             {
-                Command(client.Address + " : Disconnected");
-                Clients.Remove(client);
-                Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
-                boxClients.Items.Remove(client);
-                client.Close();
+                CloseConnect(client);
             }
         }
 
@@ -232,9 +246,7 @@ namespace Server
                 case "connect":
                     client.Account = tokens[1];
                     Command(client.Address + " : Connected");
-                    Clients.Add(client);
-                    boxClients.Items.Add(client);
-                    boxClients.SelectedIndex = -1;
+                    AddClients(client);
 
                     Command(client.Address + " : Send list clients");
                     string list = "";
@@ -255,6 +267,28 @@ namespace Server
                         }
                     break;
             }
+        }
+
+        /// <summary>
+        /// Disconnected to client
+        /// </summary>
+        /// <param name="client">Client</param>
+        private void CloseConnect(Client client)
+        {
+            Command(client.Address + " : Disconnected");
+            Clients.Remove(client);
+            Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
+
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
+            {
+                boxClients.Items.Remove(client);
+                client.Close();
+            });
+            else
+            {
+                boxClients.Items.Remove(client);
+                client.Close();
+            }            
         }
         #endregion
 

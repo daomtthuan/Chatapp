@@ -108,7 +108,6 @@
             // 
             // boxClients
             // 
-            this.boxClients.HotTrackSelectMode = DevExpress.XtraEditors.HotTrackSelectMode.SelectItemOnClick;
             this.boxClients.Location = new System.Drawing.Point(12, 36);
             this.boxClients.Name = "boxClients";
             this.boxClients.Size = new System.Drawing.Size(189, 360);

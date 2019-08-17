@@ -39,7 +39,6 @@ namespace Client
         public Client()
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;
             Icon = Properties.Resources.ClientIcon;
             connected = false;
         }
@@ -58,7 +57,7 @@ namespace Client
             else
             {
                 Connect();
-                layoutTabChat.Text = "Account: " + account;
+                layoutTabChat.Text = "Account: " + Account;
             }
         }
 
@@ -83,7 +82,20 @@ namespace Client
         private void BoxOnline_MouseClick(object sender, MouseEventArgs e)
         {
             if (boxOnline.IndexFromPoint(e.Location) >= 0)
-                GetPageChat(boxOnline.SelectedItem.ToString()).PageVisible = true;
+            {
+                if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
+                {
+                    XtraTabPage page = GetPageChat(boxOnline.SelectedItem.ToString());
+                    page.PageVisible = true;
+                    tabChat.SelectedTabPage = page;
+                });
+                else
+                {
+                    XtraTabPage page = GetPageChat(boxOnline.SelectedItem.ToString());
+                    page.PageVisible = true;
+                    tabChat.SelectedTabPage = page;
+                }
+            }
         }
 
         /// <summary>
@@ -93,7 +105,11 @@ namespace Client
         /// <param name="e">Event Args</param>
         private void TabChat_CloseButtonClick(object sender, EventArgs e)
         {
-            ((XtraTabPage)((ClosePageButtonEventArgs)e).Page).PageVisible = false;
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
+            {
+                ((XtraTabPage)((ClosePageButtonEventArgs)e).Page).PageVisible = false;
+            });
+            else ((XtraTabPage)((ClosePageButtonEventArgs)e).Page).PageVisible = false;
         }
 
         /// <summary>
@@ -106,23 +122,85 @@ namespace Client
             string message = textMessage.Text.Trim(new char[] { ' ', '\r', '\n', });
             while (message.Contains("\r\n\r\n")) message.Replace("\r\n\r\n", "\r\n");
 
-            if (tabChat.TabPages.Count > 0 && message.Length > 0)
+            if (tabChat.SelectedTabPageIndex >= 0 && message.Length > 0)
             {
                 Send("chat|" + tabChat.SelectedTabPage.Text + "|" + message);
-                ((MemoEdit)tabChat.SelectedTabPage.Controls[0]).Text += "You:\r\n" + message + "\r\n\r\n";
+                ShowMessage("You", message, false);
             }
-            textMessage.Text = string.Empty;
         }
 
         /// <summary>
-        /// Add page into tab chat
+        /// Show message in box chat
         /// </summary>
-        /// <param name="name">Name page</param>
-        private void AddPageChat(string name)
+        /// <param name="name">Name</param>
+        /// <param name="message">Message</param>
+        /// <param name="receive">Message is receive or not?</param>
+        private void ShowMessage(string name, string message, bool receive = true)
         {
-            XtraTabPage page = new XtraTabPage { Text = name, PageVisible = false };
-            page.Controls.Add(new MemoEdit() { Dock = DockStyle.Fill, BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder, ReadOnly = true });
-            tabChat.TabPages.Add(page);
+            if (receive)
+            {
+                if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
+                {
+                    ((MemoEdit)GetPageChat(name).Controls[0]).Text += name + ":\r\n" + message + "\r\n\r\n";
+                    GetPageChat(name).PageVisible = true;
+                });
+                else
+                {
+                    ((MemoEdit)GetPageChat(name).Controls[0]).Text += name + ":\r\n" + message + "\r\n\r\n";
+                    GetPageChat(name).PageVisible = true;
+                }
+            }
+            else
+            {
+                if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
+                {
+                    ((MemoEdit)tabChat.SelectedTabPage.Controls[0]).Text += name + ":\r\n" + message + "\r\n\r\n";
+                    textMessage.Text = string.Empty;
+                });
+                else
+                {
+                    ((MemoEdit)tabChat.SelectedTabPage.Controls[0]).Text += name + ":\r\n" + message + "\r\n\r\n";
+                    textMessage.Text = string.Empty;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add online client to list
+        /// </summary>
+        private void AddOnline(string name)
+        {
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
+            {
+                boxOnline.Items.Add(name);
+                XtraTabPage page = new XtraTabPage() { Text = name, PageVisible = false };
+                page.Controls.Add(new MemoEdit() { Dock = DockStyle.Fill, BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder, ReadOnly = true });
+                tabChat.TabPages.Add(page);
+            });
+            else
+            {
+                boxOnline.Items.Add(name);
+                XtraTabPage page = new XtraTabPage() { Text = name, PageVisible = false };
+                page.Controls.Add(new MemoEdit() { Dock = DockStyle.Fill, BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder, ReadOnly = true });
+                tabChat.TabPages.Add(page);
+            }
+        }
+
+        /// <summary>
+        /// Remove online client to list
+        /// </summary>
+        private void RemoveOnline(string name)
+        {
+            if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
+            {
+                boxOnline.Items.Remove(name);
+                tabChat.TabPages.Remove(GetPageChat(name));
+            });
+            else
+            {
+                boxOnline.Items.Remove(name);
+                tabChat.TabPages.Remove(GetPageChat(name));
+            }
         }
 
         /// <summary>
@@ -154,13 +232,13 @@ namespace Client
             }
             catch
             {
-                CloseClient();
+                CloseClient("Could not connect to server");
             }
 
             Thread listen = new Thread(Receive) { IsBackground = true };
             listen.Start();
 
-            Send("connect|" + account);
+            Send("connect|" + Account);
         }
 
         /// <summary>
@@ -175,7 +253,7 @@ namespace Client
             }
             catch
             {
-                CloseClient();
+                CloseClient("Could not connect to server");
             }
         }
 
@@ -197,7 +275,7 @@ namespace Client
             }
             catch
             {
-                CloseClient();
+                CloseClient("Could not connect to server");
             }
         }
 
@@ -212,21 +290,20 @@ namespace Client
             switch (tokens[0])
             {
                 case "connect":
-                    boxOnline.Items.Add(tokens[1]);
+                    AddOnline(tokens[1]);
                     break;
 
                 case "list":
-                    for (int i = 1; i < tokens.Length; i++)
-                    {
-                        boxOnline.Items.Add(tokens[i]);
-                        AddPageChat(tokens[i]);
-                    }
+                    for (int i = 1; i < tokens.Length; i++) AddOnline(tokens[i]);
                     break;
 
                 case "chat":
-                    message = message.Remove(0, (tokens[0] + "|" + tokens[1] + "|").Length);
-                    string name = tokens[1];                    
-                    ((MemoEdit)GetPageChat(name).Controls[0]).Text += name + ":\r\n" + message + "\r\n\r\n";
+                    ShowMessage(tokens[1], message.Remove(0, (tokens[0] + "|" + tokens[1] + "|").Length));
+                    break;
+
+                case "disconnect":
+                    if (tokens[1] == Account) CloseClient("You are kicked by administrator!");
+                    else RemoveOnline(tokens[1]);
                     break;
             }
         }
@@ -234,9 +311,9 @@ namespace Client
         /// <summary>
         /// Close client if could not connect to server
         /// </summary>
-        private void CloseClient()
+        private void CloseClient(string message)
         {
-            MessageBox.Show("Could not connect", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show(message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             connected = false;
             SocketClient.Close();
             Application.Exit();
