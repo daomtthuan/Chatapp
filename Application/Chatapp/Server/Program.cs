@@ -1,5 +1,7 @@
 ﻿using DevExpress.UserSkins;
 using System;
+using System.Configuration;
+using System.Net;
 using System.Windows.Forms;
 
 namespace Server
@@ -12,6 +14,9 @@ namespace Server
         [STAThread]
         static void Main()
         {
+            Data.Config.ConnectString = ConfigurationManager.ConnectionStrings["Chatapp"].ConnectionString;
+            Data.Config.Port = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Port"));
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

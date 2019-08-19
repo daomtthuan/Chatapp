@@ -222,7 +222,7 @@ namespace Client
         /// </summary>
         private void Connect()
         {
-            IPEndPoint server = new IPEndPoint(IPAddress.Parse(Data.Config.IP), Data.Config.Port);
+            IPEndPoint server = new IPEndPoint(Data.Config.IP, Data.Config.Port);
             SocketClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
 
             try

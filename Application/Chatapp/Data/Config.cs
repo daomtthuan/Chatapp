@@ -1,4 +1,6 @@
-﻿namespace Data
+﻿using System.Net;
+
+namespace Data
 {
     /// <summary>
     /// Config of application
@@ -8,16 +10,16 @@
         /// <summary>
         /// Connect string to sql server
         /// </summary>
-        public static readonly string ConnectString = @"Data Source=(local);Initial Catalog=ChatApp;Integrated Security=True";
+        public static string ConnectString;
 
         /// <summary>
         /// IP Address
         /// </summary>
-        public static readonly string IP = "127.0.0.1";
+        public static IPAddress IP;
 
         /// <summary>
         /// Connect Port
         /// </summary>
-        public static readonly int Port = 2019;
+        public static int Port;
     }
 }
