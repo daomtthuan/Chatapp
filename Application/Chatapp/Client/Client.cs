@@ -119,8 +119,9 @@ namespace Client
         /// <param name="e">Event Args</param>
         private void ButtonSend_Click(object sender, EventArgs e)
         {
-            string message = textMessage.Text.Trim(new char[] { ' ', '\r', '\n', });
+            string message = textMessage.Text.Trim(new char[] { ' ', '\r', '\n', '\t' });
             while (message.Contains("\r\n\r\n")) message.Replace("\r\n\r\n", "\r\n");
+            message.Replace("\r\n", "\r\n\t");
 
             if (tabChat.SelectedTabPageIndex >= 0 && message.Length > 0)
             {
@@ -137,16 +138,17 @@ namespace Client
         /// <param name="receive">Message is receive or not?</param>
         private void ShowMessage(string name, string message, bool receive = true)
         {
+            message += "\t\t";
             if (receive)
             {
                 if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
                 {
-                    ((MemoEdit)GetPageChat(name).Controls[0]).Text += name + ":\r\n" + message + "\r\n\r\n";
+                    ((MemoEdit)GetPageChat(name).Controls[0]).Text += name + ":\r\n" + message + "\r\n";
                     GetPageChat(name).PageVisible = true;
                 });
                 else
                 {
-                    ((MemoEdit)GetPageChat(name).Controls[0]).Text += name + ":\r\n" + message + "\r\n\r\n";
+                    ((MemoEdit)GetPageChat(name).Controls[0]).Text += name + ":\r\n" + message + "\r\n";
                     GetPageChat(name).PageVisible = true;
                 }
             }
@@ -154,12 +156,12 @@ namespace Client
             {
                 if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
                 {
-                    ((MemoEdit)tabChat.SelectedTabPage.Controls[0]).Text += name + ":\r\n" + message + "\r\n\r\n";
+                    ((MemoEdit)tabChat.SelectedTabPage.Controls[0]).Text += name + ":\r\n" + message + "\r\n";
                     textMessage.Text = string.Empty;
                 });
                 else
                 {
-                    ((MemoEdit)tabChat.SelectedTabPage.Controls[0]).Text += name + ":\r\n" + message + "\r\n\r\n";
+                    ((MemoEdit)tabChat.SelectedTabPage.Controls[0]).Text += name + ":\r\n" + message + "\r\n";
                     textMessage.Text = string.Empty;
                 }
             }
@@ -194,12 +196,12 @@ namespace Client
             if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
             {
                 boxOnline.Items.Remove(name);
-                tabChat.TabPages.Remove(GetPageChat(name));
+                GetPageChat(name).PageVisible = false;
             });
             else
             {
                 boxOnline.Items.Remove(name);
-                tabChat.TabPages.Remove(GetPageChat(name));
+                GetPageChat(name).PageVisible = false;
             }
         }
 
@@ -299,6 +301,7 @@ namespace Client
 
                 case "chat":
                     ShowMessage(tokens[1], message.Remove(0, (tokens[0] + "|" + tokens[1] + "|").Length));
+                    System.Media.SystemSounds.Hand.Play();
                     break;
 
                 case "disconnect":
