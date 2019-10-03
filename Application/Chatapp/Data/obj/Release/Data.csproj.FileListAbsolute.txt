@@ -1,3 +1,4 @@
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\bin\Release\Data.dll
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Release\Data.csproj.CoreCompileInputs.cache
 E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Release\Data.dll
+E:\Sync\GitHub\Chatapp\Application\Chatapp\Data\obj\Release\Data.csprojAssemblyReference.cache
