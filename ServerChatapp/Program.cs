@@ -1,7 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using DevExpress.UserSkins;
+﻿using DevExpress.UserSkins;
+using ServerChatapp.bll;
 using ServerChatapp.ui;
+using System;
+using System.Windows.Forms;
 
 namespace ServerChatapp
 {
@@ -17,7 +18,8 @@ namespace ServerChatapp
             Application.SetCompatibleTextRenderingDefault(false);
 
             BonusSkins.Register();
-            Application.Run(new Main());
+            BllServer.Instance.Main = new Main();
+            Application.Run(BllServer.Instance.Main);
         }
     }
 }

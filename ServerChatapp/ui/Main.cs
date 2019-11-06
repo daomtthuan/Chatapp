@@ -1,6 +1,7 @@
-﻿using System;
+﻿using ServerChatapp.bll;
+using ServerChatapp.dto;
+using System;
 using System.Windows.Forms;
-using ServerChatapp.bll;
 
 namespace ServerChatapp.ui
 {
@@ -9,12 +10,12 @@ namespace ServerChatapp.ui
         public Main()
         {
             InitializeComponent();
-            Visible = false;
+            CheckForIllegalCrossThreadCalls = false;
         }
 
-        private void Main_Load(object sender, EventArgs e)
+        private void Main_Shown(object sender, EventArgs e)
         {
-            using(Login login = new Login())
+            using (Login login = new Login())
             {
                 login.ShowDialog();
                 if (BllServer.Instance.Server.Alive)
@@ -26,6 +27,42 @@ namespace ServerChatapp.ui
                     Application.Exit();
                 }
             }
+        }
+
+        public void AddClient(Client client)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke((MethodInvoker)(() =>
+                {
+                    clientListBoxControl.Items.Add(client);
+                }));
+            }
+            else
+            {
+                clientListBoxControl.Items.Add(client);
+            }
+        }
+
+        public void RemoveClient(Client client)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke((MethodInvoker)(() =>
+                {
+                    clientListBoxControl.Items.Remove(client);
+                }));
+            }
+            else
+            {
+                clientListBoxControl.Items.Remove(client);
+            }
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            BllServer.Instance.Server.Stop();
+            GC.Collect();
         }
     }
 }

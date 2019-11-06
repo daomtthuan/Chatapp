@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Text;
+﻿using Data;
 
 namespace ServerChatapp.dal
 {
@@ -23,25 +22,15 @@ namespace ServerChatapp.dal
             private set => instance = value;
         }
 
-        private string HasPassword(string password)
-        {
-            string hasPass = "";
-            foreach (byte item in new MD5CryptoServiceProvider().ComputeHash(Encoding.ASCII.GetBytes(password)))
-            {
-                hasPass += item;
-            }
-            return hasPass;
-        }
-
         public bool Login(string name, string password, int role)
         {
-            object data = DataProvider.Instance.ExecuteScalar("exec [Login] @name , @password , @role", new object[] { name, HasPassword(password), role });
+            object data = DataProvider.Instance.ExecuteScalar("exec [Login] @name , @password , @role", new object[] { name, Encode.HasPassword(password), role });
             return (int)data == 1;
         }
 
-        public void Logout(string name, int role)
+        public void Logout(string name)
         {
-            DataProvider.Instance.ExecuteNonQuery("[Logout] @loginName , @role", new object[] { name, role });
+            DataProvider.Instance.ExecuteNonQuery("exec [Logout] @loginName", new object[] { name });
         }
     }
 }

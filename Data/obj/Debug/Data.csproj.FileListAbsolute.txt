@@ -1,0 +1,5 @@
+E:\Sync\GitHub\chatapp\Data\bin\Debug\Data.dll
+E:\Sync\GitHub\chatapp\Data\bin\Debug\Data.pdb
+E:\Sync\GitHub\chatapp\Data\obj\Debug\Data.csproj.CoreCompileInputs.cache
+E:\Sync\GitHub\chatapp\Data\obj\Debug\Data.dll
+E:\Sync\GitHub\chatapp\Data\obj\Debug\Data.pdb

@@ -1,5 +1,6 @@
 ﻿using ServerChatapp.dal;
 using ServerChatapp.dto;
+using ServerChatapp.ui;
 
 namespace ServerChatapp.bll
 {
@@ -7,6 +8,7 @@ namespace ServerChatapp.bll
     {
         private static BllServer instance;
         private Server server;
+        private Main main;
 
         private BllServer()
         {
@@ -28,6 +30,7 @@ namespace ServerChatapp.bll
         }
 
         public Server Server { get => server; private set => server = value; }
+        public Main Main { get => main; set => main = value; }
 
         public void Login(string name, string password)
         {

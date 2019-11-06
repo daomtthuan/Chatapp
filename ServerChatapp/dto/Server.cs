@@ -1,11 +1,11 @@
-﻿using ServerChatapp.dal;
+﻿using Data;
+using ServerChatapp.bll;
+using ServerChatapp.dal;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -29,11 +29,11 @@ namespace ServerChatapp.dto
         public List<Client> Clients { get => clients; private set => clients = value; }
 
         public void Start(Account account)
-        {         
+        {
             Console.WriteLine("Hello " + account + ", wellcome to Server Chatapp!");
-            Console.WriteLine("Preparing to start server...");
+            Console.WriteLine("Preparing to start server...\n");
 
-            Account = account;            
+            Account = account;
             Clients = new List<Client>();
             Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             Alive = true;
@@ -41,7 +41,7 @@ namespace ServerChatapp.dto
             IPEndPoint client = new IPEndPoint(IPAddress.Any, Convert.ToInt32(ConfigurationManager.AppSettings.Get("Port")));
             Socket.Bind(client);
 
-            Console.WriteLine("Listening...");
+            Console.WriteLine("Listening...\n");
             Thread listener = new Thread(Listen) { IsBackground = true };
             listener.Start();
         }
@@ -54,10 +54,9 @@ namespace ServerChatapp.dto
                 {
                     Socket.Listen(100);
                     Client client = new Client(Socket.Accept());
-                    Clients.Add(client);
-                    Console.WriteLine(client.Address + " has connected");
+                    Console.WriteLine(client.Socket.RemoteEndPoint + " has connected");
 
-                    Console.WriteLine("Run service for " + client.Address);
+                    Console.WriteLine("Run service for " + client.Socket.RemoteEndPoint + "\n");
                     Thread servicer = new Thread(() => Receive(client)) { IsBackground = true };
                     servicer.Start();
                 }
@@ -73,12 +72,12 @@ namespace ServerChatapp.dto
         {
             try
             {
-                while (Alive)
+                while (Alive && client.Connect)
                 {
                     byte[] data = new byte[5120];
                     client.Socket.Receive(data);
-                    string message = Deserialize(data);
-                    Console.WriteLine("From " + client + ": " + message.Trim('\0').Replace("\r\n", "\\r\\n"));
+                    string message = Encode.Deserialize(data);
+                    Console.WriteLine("From " + client + ": " + message.Trim('\0'));
                     Analyze(client, message);
                 }
             }
@@ -88,26 +87,6 @@ namespace ServerChatapp.dto
             }
         }
 
-        private static byte[] Serialize(string message)
-        {
-            MemoryStream stream = new MemoryStream();
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, message);
-            return stream.ToArray();
-        }
-
-        /// <summary>
-        /// Deserialize tokens byte to message
-        /// </summary>
-        /// <param name="tokens">Tokens of received message</param>
-        /// <returns>String message</returns>
-        private static string Deserialize(byte[] tokens)
-        {
-            MemoryStream stream = new MemoryStream(tokens);
-            BinaryFormatter formatter = new BinaryFormatter();
-            return (string)formatter.Deserialize(stream);
-        }
-
         private void Analyze(Client client, string message)
         {
             message = message.Trim('\0');
@@ -115,48 +94,51 @@ namespace ServerChatapp.dto
             switch (tokens[0])
             {
                 case "login":
-                    string name = tokens[1];
-                    string password = tokens[2];
-                    if (DalAccount.Instance.Login(name, password, 0))
+                    if (DalAccount.Instance.Login(tokens[1], tokens[2], 0))
                     {
-                        client.Account = new Account(name);
-                        Send(client, "login|success");
+                        client.Account = new Account(tokens[1]);
+                        string send = "login|success";
+                        Clients.ForEach(element =>
+                        {
+                            send += "|" + element.Account.Name;
+                            Send(element, "connect|" + client.Account.Name);
+                        });
+                        Send(client, send);
+                        Clients.Add(client);
+                        BllServer.Instance.Main.AddClient(client);
+                    }
+                    else
+                    {
+                        Send(client, "login|fail");
                     }
                     break;
-                //case "connect":
-                //    client.Account = tokens[1];
-                //    Command(client.Address + " : Connected");
-                //    AddClients(client);
 
-                //    Command(client.Address + " : Send list clients");
-                //    string list = "";
-                //    for (int i = 0; i < Clients.Count - 1; i++)
-                //    {
-                //        list += "|" + Clients[i].Account;
-                //        Send(Clients[i], "connect|" + client.Account);
-                //    }
-                //    Send(client, "list" + list);
-                //    break;
+                case "logout":
+                    Disconnect(client);
+                    break;
 
-                //case "chat":
-                //    foreach (Client element in Clients)
-                //        if (element.Account == tokens[1])
-                //        {
-                //            Send(element, "chat|" + client.Account + "|" + message.Remove(0, (tokens[0] + "|" + tokens[1] + "|").Length));
-                //            break;
-                //        }
-                //    break;
+                case "chat":
+                    Clients.ForEach(element =>
+                    {
+                        if (element.Account.Name == tokens[1])
+                        {
+                            Send(element, "chat|" + client.Account.Name + "|" + message.Remove(0, (tokens[0] + "|" + tokens[1] + "|").Length));
+                            return;
+                        }
+                    });
+                    break;
             }
+            Console.WriteLine();
         }
 
         private void Send(Client client, string message)
         {
             try
             {
-                if (Alive)
+                if (Alive && client.Connect)
                 {
-                    client.Socket.Send(Serialize(message));
-                    Console.WriteLine("To " + client + ": " + message.Replace("\r\n", "\\r\\n"));
+                    client.Socket.Send(Encode.Serialize(message));
+                    Console.WriteLine("To " + client + ": " + message);
                 }
             }
             catch
@@ -167,20 +149,28 @@ namespace ServerChatapp.dto
 
         private void Disconnect(Client client)
         {
-            //Console.WriteLine(client.Address + " : has disconnected");
-            //Clients.Remove(client);
-            //Clients.ForEach(e => Send(e, "disconnect|" + client.Account));
+            Console.WriteLine(client + " : has disconnected\n");            
+            if (client.Account != null)
+            {
+                Clients.Remove(client);
+                BllServer.Instance.Main.RemoveClient(client);
+                DalAccount.Instance.Logout(client.Account.Name);
+                Clients.ForEach(e => Send(e, "disconnect|" + client.Account.Name));
+            }            
+            client.Close();
+        }
 
-            //if (InvokeRequired) BeginInvoke((MethodInvoker)delegate ()
-            //{
-            //    boxClients.Items.Remove(client);
-            //    client.Close();
-            //});
-            //else
-            //{
-            //    boxClients.Items.Remove(client);
-            //    client.Close();
-            //}
+        public void Stop()
+        {
+            if (Account != null)
+            {
+                DalAccount.Instance.Logout(Account.Name);
+            }
+            if (Socket != null)
+            {
+                Socket.Close();
+                Socket.Dispose();
+            }
         }
     }
 }

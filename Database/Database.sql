@@ -37,10 +37,9 @@ end
 go
 
 create proc [Logout]
-	@name varchar(10), @role bit
+	@name varchar(10)
 as begin
-	if (@role = 1) update [Account] set [status] = 0;
-	else update [Account] set [status] = 0 where [name] = @name;
+	update [Account] set [status] = 0 where [name] = @name;
 end
 go
 

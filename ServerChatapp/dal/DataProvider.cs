@@ -3,29 +3,17 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace ServerChatapp.dal
 {
     public class DataProvider
     {
         private static DataProvider instance;
-        private readonly SqlConnection connection;
+        private readonly string CONNECT_STRING;
 
         private DataProvider()
         {
-            try
-            {
-                connection = new SqlConnection(ConfigurationManager.ConnectionStrings["Chatapp"].ConnectionString);
-                connection.Open();
-                connection.Close();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: Could not connect to database");
-                Console.WriteLine(e.Message);
-                Application.Exit();
-            }
+            CONNECT_STRING = ConfigurationManager.ConnectionStrings["Chatapp"].ConnectionString;
         }
 
         public static DataProvider Instance
@@ -45,27 +33,26 @@ namespace ServerChatapp.dal
         public DataTable ExecuteQuery(string query, object[] paramater = null)
         {
             DataTable data = new DataTable();
+            SqlConnection connection = new SqlConnection(CONNECT_STRING);
             try
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(query, connection))
+                SqlCommand command = new SqlCommand(query, connection);
+                if (paramater != null)
                 {
-                    if (paramater != null)
+                    string[] listParamater = query.Split(' ');
+                    int i = 0;
+                    foreach (string item in listParamater)
                     {
-                        string[] listParamater = query.Split(' ');
-                        int i = 0;
-                        foreach (string item in listParamater)
+                        if (item.Contains('@'))
                         {
-                            if (item.Contains('@'))
-                            {
-                                command.Parameters.AddWithValue(item, paramater[i++]);
-                            }
+                            command.Parameters.AddWithValue(item, paramater[i++]);
                         }
                     }
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-                    {
-                        adapter.Fill(data);
-                    }
+                }
+                using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                {
+                    adapter.Fill(data);
                 }
             }
             catch (Exception ex)
@@ -83,25 +70,24 @@ namespace ServerChatapp.dal
         public int ExecuteNonQuery(string query, object[] paramater = null)
         {
             int data = 0;
+            SqlConnection connection = new SqlConnection(CONNECT_STRING);
             try
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(query, connection))
+                SqlCommand command = new SqlCommand(query, connection);
+                if (paramater != null)
                 {
-                    if (paramater != null)
+                    string[] listParamater = query.Split(' ');
+                    int i = 0;
+                    foreach (string item in listParamater)
                     {
-                        string[] listParamater = query.Split(' ');
-                        int i = 0;
-                        foreach (string item in listParamater)
+                        if (item.Contains('@'))
                         {
-                            if (item.Contains('@'))
-                            {
-                                command.Parameters.AddWithValue(item, paramater[i++]);
-                            }
+                            command.Parameters.AddWithValue(item, paramater[i++]);
                         }
                     }
-                    data = command.ExecuteNonQuery();
                 }
+                data = command.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -117,25 +103,24 @@ namespace ServerChatapp.dal
 
         public object ExecuteScalar(string query, object[] paramater = null)
         {
+            SqlConnection connection = new SqlConnection(CONNECT_STRING);
             try
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand(query, connection))
+                SqlCommand command = new SqlCommand(query, connection);
+                if (paramater != null)
                 {
-                    if (paramater != null)
+                    string[] listParamater = query.Split(' ');
+                    int i = 0;
+                    foreach (string item in listParamater)
                     {
-                        string[] listParamater = query.Split(' ');
-                        int i = 0;
-                        foreach (string item in listParamater)
+                        if (item.Contains('@'))
                         {
-                            if (item.Contains('@'))
-                            {
-                                command.Parameters.AddWithValue(item, paramater[i++]);
-                            }
+                            command.Parameters.AddWithValue(item, paramater[i++]);
                         }
                     }
-                    return command.ExecuteScalar();
                 }
+                return command.ExecuteScalar();
             }
             catch (Exception ex)
             {

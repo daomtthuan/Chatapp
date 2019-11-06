@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerChatapp", "ServerChat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatapp", "Chatapp\Chatapp.csproj", "{C63A740C-FD1B-4A54-B57A-DE0E25BD75CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{7A6EDF47-AFD0-4147-A68D-1A9CB1DDF82A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,9 @@ Global
 		{C63A740C-FD1B-4A54-B57A-DE0E25BD75CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C63A740C-FD1B-4A54-B57A-DE0E25BD75CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C63A740C-FD1B-4A54-B57A-DE0E25BD75CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A6EDF47-AFD0-4147-A68D-1A9CB1DDF82A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A6EDF47-AFD0-4147-A68D-1A9CB1DDF82A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A6EDF47-AFD0-4147-A68D-1A9CB1DDF82A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

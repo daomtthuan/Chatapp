@@ -1,6 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using Chatapp.bll;
 using DevExpress.XtraEditors;
+using System;
+using System.Windows.Forms;
 
 namespace Chatapp.ui
 {
@@ -9,6 +10,7 @@ namespace Chatapp.ui
         public Login()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
         }
 
         private void LoginSimpleButton_Click(object sender, EventArgs e)
@@ -19,7 +21,19 @@ namespace Chatapp.ui
             }
             else
             {
-                
+                BllClient.Instance.Client.Login(nameTextEdit.Text, passwordTextEdit.Text);
+            }
+        }
+
+        public void Alert()
+        {
+            if (BllClient.Instance.Client.Connect)
+            {
+                Close();
+            }
+            else
+            {
+                XtraMessageBox.Show("Could not login", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

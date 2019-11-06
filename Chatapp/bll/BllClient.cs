@@ -1,4 +1,5 @@
 ﻿using Chatapp.dto;
+using Chatapp.ui;
 
 namespace Chatapp.bll
 {
@@ -6,6 +7,8 @@ namespace Chatapp.bll
     {
         private static BllClient instance;
         private Client client;
+        private Login login;
+        private Main main;
 
         private BllClient()
         {
@@ -27,10 +30,7 @@ namespace Chatapp.bll
         }
 
         public Client Client { get => client; private set => client = value; }
-
-        public void Login(string name, string password)
-        {
-           
-        }
+        public Login Login { get => login; set => login = value; }
+        public Main Main { get => main; set => main = value; }
     }
 }

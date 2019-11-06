@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors;
 using ServerChatapp.bll;
+using System;
+using System.Windows.Forms;
 
 namespace ServerChatapp.ui
 {
@@ -10,6 +10,7 @@ namespace ServerChatapp.ui
         public Login()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
         }
 
         private void LoginSimpleButton_Click(object sender, EventArgs e)
