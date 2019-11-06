@@ -1,0 +1,11 @@
+E:\Sync\GitHub\chatapp\Release\Client\Chatapp.exe.config
+E:\Sync\GitHub\chatapp\Release\Client\Chatapp.exe
+E:\Sync\GitHub\chatapp\Chatapp\obj\Release\Chatapp.csprojAssemblyReference.cache
+E:\Sync\GitHub\chatapp\Chatapp\obj\Release\Chatapp.Properties.Resources.resources
+E:\Sync\GitHub\chatapp\Chatapp\obj\Release\Chatapp.ui.Login.resources
+E:\Sync\GitHub\chatapp\Chatapp\obj\Release\Chatapp.ui.Main.resources
+E:\Sync\GitHub\chatapp\Chatapp\obj\Release\Chatapp.csproj.GenerateResource.cache
+E:\Sync\GitHub\chatapp\Chatapp\obj\Release\Chatapp.exe.licenses
+E:\Sync\GitHub\chatapp\Chatapp\obj\Release\Chatapp.csproj.CoreCompileInputs.cache
+E:\Sync\GitHub\chatapp\Chatapp\obj\Release\Chatapp.csproj.CopyComplete
+E:\Sync\GitHub\chatapp\Chatapp\obj\Release\Chatapp.exe
