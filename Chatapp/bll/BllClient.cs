@@ -29,6 +29,11 @@ namespace Chatapp.bll
             private set => instance = value;
         }
 
+        public void Send(string name, string message)
+        {
+            Client.Send("chat|" + name + "|" + message);
+        }
+
         public Client Client { get => client; private set => client = value; }
         public Login Login { get => login; set => login = value; }
         public Main Main { get => main; set => main = value; }

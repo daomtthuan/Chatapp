@@ -122,7 +122,7 @@ namespace Chatapp.ui
             string message = messageTextEdit.Text.Trim();
             if (tabControl.SelectedTabPageIndex >= 0 && message.Length > 0)
             {
-                BllClient.Instance.Client.Send("chat|" + tabControl.SelectedTabPage.Text + "|" + message);
+                BllClient.Instance.Send(tabControl.SelectedTabPage.Text, message);
                 ShowMessage("You", message, false);
             }
         }
