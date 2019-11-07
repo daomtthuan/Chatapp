@@ -1,6 +1,6 @@
-# chatapp
+# Chatapp
 TCP/IP Chat Application Using C# Winform
----------------------------------------------
+-
 <b>Đồ án cuối môn CT240</b>
 <BR>
 Ứng dụng Chatapp sẽ được xây dựng và phát triển trên ngôn ngữ C# Winform trên nên tảng Framework .NET 4.7.2 kết hợp với hệ quản trị cơ sở dữ liệu SQL Server. Ứng dụng phát triển là Visual Studio và SQL Server Manager Studio.
