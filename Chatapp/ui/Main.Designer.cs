@@ -33,6 +33,7 @@
             this.sendSimpleButton = new DevExpress.XtraEditors.SimpleButton();
             this.tabControl = new DevExpress.XtraTab.XtraTabControl();
             this.messageTextEdit = new DevExpress.XtraEditors.TextEdit();
+            this.accountLabelControl = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.onlineListBoxControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.messageTextEdit.Properties)).BeginInit();
@@ -72,11 +73,21 @@
             this.messageTextEdit.Size = new System.Drawing.Size(530, 28);
             this.messageTextEdit.TabIndex = 5;
             // 
+            // accountLabelControl
+            // 
+            this.accountLabelControl.Appearance.ForeColor = DevExpress.LookAndFeel.DXSkinColors.FillColors.Primary;
+            this.accountLabelControl.Appearance.Options.UseForeColor = true;
+            this.accountLabelControl.Location = new System.Drawing.Point(255, 452);
+            this.accountLabelControl.Name = "accountLabelControl";
+            this.accountLabelControl.Size = new System.Drawing.Size(0, 21);
+            this.accountLabelControl.TabIndex = 6;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(797, 485);
+            this.Controls.Add(this.accountLabelControl);
             this.Controls.Add(this.messageTextEdit);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.sendSimpleButton);
@@ -93,6 +104,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.tabControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.messageTextEdit.Properties)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -102,5 +114,6 @@
         private DevExpress.XtraEditors.SimpleButton sendSimpleButton;
         private DevExpress.XtraTab.XtraTabControl tabControl;
         private DevExpress.XtraEditors.TextEdit messageTextEdit;
+        private DevExpress.XtraEditors.LabelControl accountLabelControl;
     }
 }

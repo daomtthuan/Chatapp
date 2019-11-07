@@ -53,6 +53,8 @@ namespace Chatapp.dto
             catch
             {
                 XtraMessageBox.Show("Could not connect to server", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Alive = false;
+                Connect = false;
                 Application.Exit();
             }
 
@@ -81,6 +83,8 @@ namespace Chatapp.dto
             catch
             {
                 XtraMessageBox.Show("Could not connect to server", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Alive = false;
+                Connect = false;
                 Application.Exit();
             }
         }
@@ -97,6 +101,8 @@ namespace Chatapp.dto
             catch
             {
                 XtraMessageBox.Show("Could not connect to server", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Alive = false;
+                Connect = false;
                 Application.Exit();
             }
         }

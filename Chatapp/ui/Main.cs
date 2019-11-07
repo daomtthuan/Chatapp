@@ -22,6 +22,7 @@ namespace Chatapp.ui
             BllClient.Instance.Login.ShowDialog();
             if (BllClient.Instance.Client.Connect)
             {
+                accountLabelControl.Text = "Account: " + BllClient.Instance.Client.Account;
             }
             else
             {
