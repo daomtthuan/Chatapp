@@ -1,5 +1,0 @@
-E:\Sync\GitHub\chatapp\Data\bin\Release\Data.dll
-E:\Sync\GitHub\chatapp\Data\bin\Release\Data.pdb
-E:\Sync\GitHub\chatapp\Data\obj\Release\Data.csproj.CoreCompileInputs.cache
-E:\Sync\GitHub\chatapp\Data\obj\Release\Data.dll
-E:\Sync\GitHub\chatapp\Data\obj\Release\Data.pdb
