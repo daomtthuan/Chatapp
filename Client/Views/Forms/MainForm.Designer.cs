@@ -1,5 +1,5 @@
 ﻿
-namespace Chatapp.ChatappServer.View.Form {
+namespace Chatapp.ChatappClient.Views.Forms {
   partial class MainForm {
     /// <summary>
     /// Required designer variable.
@@ -24,9 +24,18 @@ namespace Chatapp.ChatappServer.View.Form {
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
-      this.components = new System.ComponentModel.Container();
+      this.SuspendLayout();
+      // 
+      // MainForm
+      // 
+      this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.ClientSize = new System.Drawing.Size(298, 268);
+      this.Name = "MainForm";
       this.Text = "MainForm";
+      this.Load += new System.EventHandler(this.MainForm_Load);
+      this.ResumeLayout(false);
+
     }
 
     #endregion
